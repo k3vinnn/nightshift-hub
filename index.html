@@ -278,6 +278,35 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 .runner:hover svg{filter:drop-shadow(0 0 8px rgba(194,245,255,.65))}
 .dragon svg{filter:drop-shadow(0 5px 4px rgba(25,4,22,.45))}
 @media(min-width:850px){.dragon{width:290px;height:225px}.runner{width:122px;height:195px}}
+
+/* NIGHTSHIFT progression, OS, vault and arcade */
+.ns-card{background:rgba(18,14,31,.93);border:1px solid rgba(181,138,255,.35);border-radius:16px;padding:20px;margin:15px 0;box-shadow:0 8px 25px #0003}
+.ns-rank{display:flex;justify-content:space-between;gap:10px;color:#c8a6ff;font-weight:800;letter-spacing:1px}
+.ns-xpbar{height:17px;border:1px solid #7954a3;background:#100d1c;border-radius:20px;overflow:hidden;margin-top:15px}
+#nsXpFill{height:100%;width:0;background:linear-gradient(90deg,#8b52ff,#5af3cc);transition:width .4s}
+.ns-achievements{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.ns-achievement{padding:12px;border:1px solid #634b7d;border-radius:12px;background:#21182f}.ns-achievement.locked{opacity:.45;filter:grayscale(1)}.ns-achievement strong{display:block}.ns-achievement small{color:#b4a8c8}
+.ns-desktop{position:relative;height:480px;overflow:hidden;border:2px solid #7e52ad;border-radius:18px;background:radial-gradient(ellipse at 65% 32%,#6d3591 0%,#27153e 33%,#0b0d20 78%);box-shadow:inset 0 0 65px #020209}
+.ns-desktop:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 22% 22%,#fff8 1px,transparent 2px),radial-gradient(circle at 76% 60%,#fff7 1px,transparent 2px);background-size:100px 110px}
+.ns-desktop-icons{position:absolute;top:18px;left:15px;display:flex;flex-direction:column;gap:9px}
+.ns-desktop-icons button{border:0;background:transparent;color:#fff;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:26px;width:72px;padding:7px;cursor:pointer;border-radius:9px}
+.ns-desktop-icons button span{font-size:11px}.ns-desktop-icons button:hover{background:#ffffff24}
+.ns-taskbar{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;padding:12px;background:#0c0b1be8;border-top:1px solid #8d64bc;font-size:12px;letter-spacing:1px}
+.ns-window{position:absolute;top:65px;left:24%;width:min(410px,72%);height:310px;display:flex;flex-direction:column;border:1px solid #b48cf0;border-radius:11px;overflow:hidden;background:#111121;box-shadow:0 12px 40px #000b}
+.ns-windowbar{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;background:#37204f;color:#f3eaff;cursor:move;user-select:none;touch-action:none}
+.ns-windowbar button{background:#7a3565;color:white;border:0;border-radius:5px;cursor:pointer;padding:3px 9px}
+.ns-windowbody{padding:13px;overflow:auto;flex:1;font-size:13px}
+.ns-terminal-output{white-space:pre-wrap;font-family:monospace;color:#82ffc1;min-height:150px;font-size:12px;line-height:1.6}
+.ns-terminal-input{width:100%;background:#0a1515!important;color:#c2ffe5!important;border:1px solid #468b72!important;font-family:monospace}
+.ns-inline{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:12px}.ns-inline input{flex:1;min-width:140px}
+#nsVaultRoom[hidden],#nsVaultLock[hidden]{display:none}
+.ns-vault-glow .ns-card{box-shadow:0 0 22px #c375ff77}
+.ns-arcade-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px}
+.ns-reaction-pad{height:185px;display:grid;place-items:center;text-align:center;padding:20px;background:#3b2849;border:2px solid #8754b4;border-radius:14px;font-weight:bold;margin:13px 0;cursor:pointer;user-select:none}
+.ns-reaction-pad.waiting{background:#ae3948}.ns-reaction-pad.ready{background:#248b65}.ns-reaction-pad.toosoon{background:#8c6530}
+#nsSnakeCanvas{display:block;max-width:100%;width:300px;aspect-ratio:1;background:#0b1320;border:2px solid #9163d1;border-radius:10px;margin:10px auto;image-rendering:pixelated}
+.ns-dpad{text-align:center;margin:10px}.ns-dpad button{background:#493266;border:1px solid #9b75cb;color:white;border-radius:8px;padding:9px 15px;margin:3px;cursor:pointer}
+@media(max-width:620px){.ns-desktop{height:450px}.ns-window{left:16%;width:80%;top:60px}.ns-card{padding:14px}}
 </style>
 </head>
 
@@ -295,7 +324,7 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
   <button onclick="show('chaos',this)">⚡ Chaos Run</button>
   <button onclick="show('lab',this)">Tech Lab</button>
   <button onclick="show('commands',this)">Commands</button>
-  <button onclick="show('notes',this)">Notes</button>
+  <button onclick="show('notes',this)">Notes</button><button onclick="show('levels',this)">🏆 XP & Levels</button><button onclick="show('os',this)">💻 NIGHTSHIFT OS</button><button onclick="show('vault',this)">🔐 Vault</button><button onclick="show('arcade',this)">🕹️ Arcade</button>
 </nav>
 
 <main>
@@ -476,6 +505,19 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
     <p id="saveStatus" class="muted">Ready.</p>
   </div>
 </section>
+
+<section id="levels"><h2>🏆 NIGHTSHIFT LEVELS</h2><p class="muted">Earn XP by exploring, using the portal gun, and playing arcade games. Progress saves on this browser.</p>
+<div class="ns-card"><div class="ns-rank"><span id="nsRank">ROOKIE</span><strong id="nsLevel">LEVEL 1</strong></div><div class="ns-xpbar"><div id="nsXpFill"></div></div><p id="nsXpText">0 / 100 XP</p><p id="nsTotalXp" class="muted">Total earned: 0 XP</p></div>
+<div class="ns-card"><h3>🎖️ Achievements</h3><div id="nsAchievements" class="ns-achievements"></div></div></section>
+<section id="os"><h2>💻 NIGHTSHIFT OS</h2><p class="muted">Your own mini desktop. Open and drag app windows, explore files, and use the terminal.</p>
+<div class="ns-desktop" id="nsDesktop"><div class="ns-desktop-icons"><button onclick="nsOpenApp('terminal')">⌨️<span>Terminal</span></button><button onclick="nsOpenApp('files')">📁<span>Files</span></button><button onclick="nsOpenApp('about')">🌌<span>About</span></button><button onclick="nsOpenApp('settings')">⚙️<span>Settings</span></button></div>
+<div id="nsWindows"></div><div class="ns-taskbar"><span>◈ NIGHTSHIFT OS</span><span id="nsOsClock">00:00</span></div></div></section>
+<section id="vault"><h2>🔐 SECRET VAULT</h2><p class="muted">Find the secret code hidden inside NIGHTSHIFT OS to unlock this Easter egg room. This is a game, not secure storage.</p>
+<div class="ns-card" id="nsVaultLock"><label for="nsVaultCode">Enter the 4-digit access code</label><div class="ns-inline"><input id="nsVaultCode" type="text" inputmode="numeric" maxlength="4" placeholder="••••"><button class="btn" onclick="nsUnlockVault()">UNLOCK</button></div><p id="nsVaultMessage" class="muted">Hint: Ask the NIGHTSHIFT OS terminal for help.</p></div>
+<div class="ns-card" id="nsVaultRoom" hidden><h3>🌌 ACCESS GRANTED</h3><p>Welcome to the secret dimension. You discovered the NIGHTSHIFT vault!</p><button class="btn" onclick="nsSetVaultTheme()">💜 Activate Vault Glow</button><button class="btn" onclick="nsResetVault()">Lock Vault</button><p class="muted">Vault Glow is a visual theme and can be switched off here.</p></div></section>
+<section id="arcade"><h2>🕹️ NIGHTSHIFT ARCADE</h2><p class="muted">Play two mini-games and earn XP. High scores save in this browser.</p>
+<div class="ns-arcade-grid"><div class="ns-card"><h3>⚡ Reaction Test</h3><p>Best: <strong id="nsReactionBest">—</strong></p><div id="nsReactionPad" class="ns-reaction-pad" role="button" tabindex="0" onclick="nsReactionTap()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nsReactionTap()}">Press START to begin</div><button class="btn" onclick="nsReactionStart()">START REACTION TEST</button><p id="nsReactionResult" class="muted">Wait for green, then tap!</p></div>
+<div class="ns-card"><h3>🐍 Neon Snake</h3><p>Score: <strong id="nsSnakeScore">0</strong> · Best: <strong id="nsSnakeBest">0</strong></p><canvas id="nsSnakeCanvas" width="300" height="300" aria-label="Snake game board"></canvas><div class="ns-inline"><button class="btn" onclick="nsSnakeStart()">START / RESTART</button><button class="btn" onclick="nsSnakeStop()">PAUSE</button></div><div class="ns-dpad"><button onclick="nsSnakeDirection(0,-1)">▲</button><div><button onclick="nsSnakeDirection(-1,0)">◀</button><button onclick="nsSnakeDirection(0,1)">▼</button><button onclick="nsSnakeDirection(1,0)">▶</button></div></div><p class="muted">Use arrow keys or the buttons. Tap the board to focus it.</p></div></div></section>
 
 </main>
 
@@ -802,6 +844,150 @@ loadNightTrack=function(){
  originalNightLoad();
 };
 document.getElementById('youtubeSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchNightYouTube()});
+
+
+/* NIGHTSHIFT LEVELS - local-only progress */
+const nsStateKey='nightshift-progress-v1';
+let nsState;
+try{nsState=JSON.parse(localStorage.getItem(nsStateKey))||{xp:0,achievements:[],bestReaction:null,bestSnake:0}}catch(e){nsState={xp:0,achievements:[],bestReaction:null,bestSnake:0}}
+nsState.xp=Math.max(0,Number(nsState.xp)||0);nsState.achievements=Array.isArray(nsState.achievements)?nsState.achievements:[];
+const nsBadges=[['first','First Steps','Visit the XP dashboard'],['explorer','Explorer','Explore 4 different tabs'],['portal','Portal Hopper','Fire the portal gun'],['os','System Operator','Open an OS app'],['vault','Vault Breaker','Unlock the secret vault'],['reaction','Quick Reflexes','Finish a reaction test'],['snake','Snake Charmer','Eat food in Snake']];
+const nsVisited=new Set();
+function nsSave(){localStorage.setItem(nsStateKey,JSON.stringify(nsState))}
+function nsAward(amount){nsState.xp+=amount;nsSave();nsRender()}
+function nsAchievement(id){
+ if(nsState.achievements.includes(id))return;
+ nsState.achievements.push(id);nsAward(25);
+}
+function nsRender(){
+ const level=Math.floor(nsState.xp/100)+1,progress=nsState.xp%100;
+ document.getElementById('nsLevel').textContent='LEVEL '+level;
+ document.getElementById('nsRank').textContent=level>=15?'NIGHTSHIFT LEGEND':level>=10?'DIMENSION MASTER':level>=6?'ELITE HACKER':level>=3?'NIGHT OWL':'ROOKIE';
+ document.getElementById('nsXpFill').style.width=progress+'%';
+ document.getElementById('nsXpText').textContent=progress+' / 100 XP to next level';
+ document.getElementById('nsTotalXp').textContent='Total earned: '+nsState.xp+' XP';
+ document.getElementById('nsAchievements').replaceChildren(...nsBadges.map(([id,name,desc])=>{
+ const el=document.createElement('div');el.className='ns-achievement'+(nsState.achievements.includes(id)?'':' locked');
+ const strong=document.createElement('strong');strong.textContent=(nsState.achievements.includes(id)?'🏅 ':'🔒 ')+name;
+ const small=document.createElement('small');small.textContent=desc;el.append(strong,small);return el;
+ }));
+ document.getElementById('nsReactionBest').textContent=nsState.bestReaction===null?'—':nsState.bestReaction+' ms';
+ document.getElementById('nsSnakeBest').textContent=nsState.bestSnake||0;
+}
+nsRender();
+const nsOldShow=show;
+show=function(id,btn){
+ nsOldShow(id,btn);
+ nsVisited.add(id);
+ if(id==='levels')nsAchievement('first');
+ if(nsVisited.size>=4)nsAchievement('explorer');
+};
+const nsOldPortal=openPortal;
+openPortal=function(){nsOldPortal();nsAchievement('portal')};
+/* NIGHTSHIFT OS */
+let nsZ=10,nsWindowCount=0;
+function nsOpenApp(app){
+ nsAchievement('os');
+ const host=document.getElementById('nsWindows');
+ const win=document.createElement('div');win.className='ns-window';win.style.zIndex=++nsZ;
+ const title=document.createElement('div');title.className='ns-windowbar';
+ const name=document.createElement('strong');name.textContent=({terminal:'⌨️ Terminal',files:'📁 Files',about:'🌌 About NIGHTSHIFT',settings:'⚙️ Settings'})[app]||app;
+ const close=document.createElement('button');close.textContent='×';close.setAttribute('aria-label','Close window');close.onclick=()=>win.remove();title.append(name,close);
+ const body=document.createElement('div');body.className='ns-windowbody';
+ if(app==='terminal'){
+ const out=document.createElement('div');out.className='ns-terminal-output';out.textContent='NIGHTSHIFT OS v1.0\nType help for commands.\n';
+ const input=document.createElement('input');input.className='ns-terminal-input';input.placeholder='Enter command...';input.setAttribute('aria-label','Terminal command');
+ input.onkeydown=e=>{if(e.key!=='Enter')return;const cmd=input.value.trim().toLowerCase();input.value='';let answer='Unknown command. Try help.';
+ if(cmd==='help')answer='Commands: help, date, whoami, clear, vault, xp, portal';
+ if(cmd==='date')answer=new Date().toLocaleString();
+ if(cmd==='whoami')answer='NIGHTSHIFT OPERATOR';
+ if(cmd==='vault')answer='SECRET VAULT ACCESS CODE: 1374';
+ if(cmd==='xp')answer='Total XP: '+nsState.xp;
+ if(cmd==='portal')answer='Use FIRE PORTAL GUN in Chaos Run!';
+ if(cmd==='clear'){out.textContent='';return}
+ out.textContent+='\n> '+cmd+'\n'+answer+'\n';out.scrollTop=out.scrollHeight;
+ };
+ body.append(out,input);
+ }else if(app==='files'){
+ body.textContent='📁 /NIGHTSHIFT\n';const p=document.createElement('p');p.textContent='📄 README.txt — Welcome to your OS. Explore the terminal for secrets.';body.append(p);
+ }else if(app==='settings'){
+ const b=document.createElement('button');b.className='btn';b.textContent='Toggle website effects';b.onclick=toggleEffects;body.append(b);
+ }else{body.textContent='NIGHTSHIFT OS // A mini desktop inside your gaming headquarters. Built for exploring, discovering secrets, and leveling up.'}
+ win.append(title,body);host.append(win);win.style.left=(18+(nsWindowCount++%4)*8)+'%';
+ title.addEventListener('pointerdown',e=>{
+ if(e.target===close)return;
+ e.preventDefault();win.style.zIndex=++nsZ;title.setPointerCapture(e.pointerId);
+ const rect=win.getBoundingClientRect(),parent=document.getElementById('nsDesktop').getBoundingClientRect();
+ const dx=e.clientX-rect.left,dy=e.clientY-rect.top;
+ const move=ev=>{win.style.left=Math.max(0,Math.min(parent.width-80,ev.clientX-parent.left-dx))+'px';win.style.top=Math.max(0,Math.min(parent.height-90,ev.clientY-parent.top-dy))+'px'};
+ const up=()=>{title.removeEventListener('pointermove',move);title.removeEventListener('pointerup',up);title.removeEventListener('pointercancel',up)};
+ title.addEventListener('pointermove',move);title.addEventListener('pointerup',up);title.addEventListener('pointercancel',up);
+ });
+ if(app==='terminal')body.querySelector('input').focus();
+}
+function nsUpdateOsClock(){document.getElementById('nsOsClock').textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}
+nsUpdateOsClock();setInterval(nsUpdateOsClock,30000);
+/* Secret vault */
+function nsUnlockVault(){
+ if(document.getElementById('nsVaultCode').value.trim()==='1374'){
+ document.getElementById('nsVaultLock').hidden=true;document.getElementById('nsVaultRoom').hidden=false;nsAchievement('vault');
+ }else document.getElementById('nsVaultMessage').textContent='ACCESS DENIED. Hint: terminal command "vault".';
+}
+function nsResetVault(){document.getElementById('nsVaultLock').hidden=false;document.getElementById('nsVaultRoom').hidden=true;document.getElementById('nsVaultCode').value=''}
+function nsSetVaultTheme(){document.body.classList.toggle('ns-vault-glow')}
+/* Reaction challenge */
+let nsReactionTimer=null,nsReactionReadyAt=0,nsReactionMode='idle';
+function nsReactionStart(){
+ clearTimeout(nsReactionTimer);nsReactionMode='waiting';const pad=document.getElementById('nsReactionPad');pad.className='ns-reaction-pad waiting';pad.textContent='WAIT FOR GREEN...';
+ document.getElementById('nsReactionResult').textContent='Do not tap yet!';
+ nsReactionTimer=setTimeout(()=>{nsReactionMode='ready';nsReactionReadyAt=performance.now();pad.className='ns-reaction-pad ready';pad.textContent='TAP NOW!'},1500+Math.random()*2800);
+}
+function nsReactionTap(){
+ const pad=document.getElementById('nsReactionPad');
+ if(nsReactionMode==='waiting'){clearTimeout(nsReactionTimer);nsReactionMode='idle';pad.className='ns-reaction-pad toosoon';pad.textContent='TOO SOON!';document.getElementById('nsReactionResult').textContent='Try again.';return}
+ if(nsReactionMode!=='ready')return;
+ const ms=Math.round(performance.now()-nsReactionReadyAt);nsReactionMode='idle';pad.className='ns-reaction-pad';pad.textContent=ms+' ms';
+ document.getElementById('nsReactionResult').textContent=ms<250?'Lightning fast!':'Nice reaction!';
+ if(nsState.bestReaction===null||ms<nsState.bestReaction)nsState.bestReaction=ms;
+ nsAchievement('reaction');nsAward(10);nsRender();
+}
+/* Neon Snake */
+const nsCanvas=document.getElementById('nsSnakeCanvas'),nsCtx=nsCanvas.getContext('2d');
+const nsCell=15,nsSize=20;
+let nsSnake=[],nsFood={x:8,y:8},nsDir={x:1,y:0},nsNextDir={x:1,y:0},nsSnakeTimer=null,nsScore=0;
+function nsSnakeDraw(){
+ nsCtx.fillStyle='#0b1320';nsCtx.fillRect(0,0,300,300);
+ nsCtx.strokeStyle='#19233c';nsCtx.lineWidth=.6;
+ for(let i=0;i<=300;i+=15){nsCtx.beginPath();nsCtx.moveTo(i,0);nsCtx.lineTo(i,300);nsCtx.moveTo(0,i);nsCtx.lineTo(300,i);nsCtx.stroke()}
+ nsCtx.fillStyle='#ff80c9';nsCtx.fillRect(nsFood.x*15+2,nsFood.y*15+2,11,11);
+ nsSnake.forEach((p,i)=>{nsCtx.fillStyle=i===0?'#c3ffac':'#64eeb6';nsCtx.fillRect(p.x*15+1,p.y*15+1,13,13)});
+}
+function nsSnakeFood(){
+ const empty=[];for(let y=0;y<20;y++)for(let x=0;x<20;x++)if(!nsSnake.some(p=>p.x===x&&p.y===y))empty.push({x,y});
+ return empty.length?empty[Math.floor(Math.random()*empty.length)]:null;
+}
+function nsSnakeStart(){
+ nsSnakeStop();nsSnake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];nsDir={x:1,y:0};nsNextDir={x:1,y:0};nsScore=0;
+ nsFood=nsSnakeFood();document.getElementById('nsSnakeScore').textContent='0';nsSnakeDraw();nsSnakeTimer=setInterval(nsSnakeTick,140);
+}
+function nsSnakeStop(){if(nsSnakeTimer!==null){clearInterval(nsSnakeTimer);nsSnakeTimer=null}}
+function nsSnakeDirection(x,y){if(nsDir.x===-x&&nsDir.y===-y)return;nsNextDir={x,y}}
+function nsSnakeTick(){
+ nsDir=nsNextDir;const h={x:nsSnake[0].x+nsDir.x,y:nsSnake[0].y+nsDir.y};
+ const eat=nsFood&&h.x===nsFood.x&&h.y===nsFood.y;
+ if(h.x<0||h.y<0||h.x>=20||h.y>=20||nsSnake.slice(0,eat?undefined:-1).some(p=>p.x===h.x&&p.y===h.y)){
+ nsSnakeStop();nsCtx.fillStyle='#fff';nsCtx.font='bold 25px Arial';nsCtx.fillText('GAME OVER',68,150);return;
+ }
+ nsSnake.unshift(h);if(eat){nsScore++;document.getElementById('nsSnakeScore').textContent=nsScore;nsAchievement('snake');nsAward(5);if(nsScore>nsState.bestSnake){nsState.bestSnake=nsScore;nsSave();nsRender()}nsFood=nsSnakeFood();if(!nsFood){nsSnakeStop();return}}else nsSnake.pop();
+ nsSnakeDraw();
+}
+document.addEventListener('keydown',e=>{
+ if(!document.getElementById('arcade').classList.contains('active')||!nsSnakeTimer)return;
+ if(['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
+ const dirs={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]};
+ if(dirs[e.key]){e.preventDefault();nsSnakeDirection(...dirs[e.key])}
+});
+nsSnake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];nsSnakeDraw();
 
 // NOTES
 const notes = document.getElementById('notesText');
