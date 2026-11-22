@@ -265,6 +265,13 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.player-visualizer i{animation:none}}
 
 .youtube-search{display:flex;gap:6px;margin-top:9px}.youtube-search input{min-width:0;flex:1;margin:0;padding:9px;font-size:12px}.youtube-search button{border:1px solid #9065d1;background:#5d388e;color:white;border-radius:9px;padding:8px 12px;cursor:pointer}.youtube-embed{margin-top:10px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#0b0b14}.youtube-embed[hidden]{display:none}.youtube-embed iframe{width:100%;height:100%;border:0}.night-player.youtube-mode .player-buttons,.night-player.youtube-mode .player-volume{display:none}
+
+/* Compact background-style YouTube player */
+.night-player.youtube-mode .youtube-embed{height:82px;aspect-ratio:auto;position:relative;overflow:hidden;border-radius:12px;background:linear-gradient(120deg,#251b36,#100d1c)}
+.night-player.youtube-mode .youtube-embed iframe{position:absolute;width:100%;height:185px;left:0;top:-48px;border:0}
+.night-player.youtube-mode .player-visualizer{margin-bottom:3px}
+.night-player.youtube-mode .player-buttons,.night-player.youtube-mode .player-volume{display:none}
+.player-note{display:block;margin-top:7px;font-size:10px;color:#b7a9cb}
 </style>
 </head>
 
@@ -488,7 +495,7 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
     <div class="player-visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <label class="player-url-label" for="trackUrl">YouTube video link or direct audio URL</label>
     <div class="player-load"><input id="trackUrl" type="url" placeholder="Paste YouTube or MP3 link" aria-label="Audio file URL"><button onclick="loadNightTrack()">Load</button></div>
-    <div class="youtube-search"><input id="youtubeSearch" placeholder="Search artist + song (e.g. FattMack Listen)" aria-label="Search songs on YouTube"><button onclick="searchNightYouTube()">Search</button></div><div id="youtubeEmbed" class="youtube-embed" hidden></div><div class="player-buttons"><button onclick="toggleNightAudio()" id="playNightBtn" aria-label="Play or pause">▶</button><span id="playerCurrent">0:00</span><input id="playerSeek" type="range" min="0" max="100" value="0" aria-label="Track progress"><span id="playerDuration">0:00</span></div>
+    <div class="youtube-search"><input id="youtubeSearch" placeholder="Search artist + song (e.g. FattMack Listen)" aria-label="Search songs on YouTube"><button onclick="searchNightYouTube()">Search</button></div><div id="youtubeEmbed" class="youtube-embed" hidden></div><small class="player-note">YouTube videos must be started in the embedded player; audio keeps playing while you browse this site.</small><div class="player-buttons"><button onclick="toggleNightAudio()" id="playNightBtn" aria-label="Play or pause">▶</button><span id="playerCurrent">0:00</span><input id="playerSeek" type="range" min="0" max="100" value="0" aria-label="Track progress"><span id="playerDuration">0:00</span></div>
     <div class="player-volume"><span>🔊</span><input id="playerVolume" type="range" min="0" max="100" value="70" aria-label="Volume"><small id="playerMessage">Search YouTube, then paste a video link.</small></div>
     <audio id="nightAudio" preload="metadata"></audio>
   </div>
@@ -761,7 +768,7 @@ function searchNightYouTube(){
  const q=document.getElementById('youtubeSearch').value.trim();
  if(!q){playerMessage.textContent='Type an artist and song first.';return}
  window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q),'_blank','noopener,noreferrer');
- playerMessage.textContent='Choose a video, copy its URL, and paste it above.';
+ playerMessage.textContent='Copy a video link from YouTube results, paste above, then Load. It plays here.';
 }
 function nightYouTubeId(value){
  try{
@@ -795,7 +802,7 @@ loadNightTrack=function(){
   embed.hidden=false;
   widget.classList.add('youtube-mode');
   document.getElementById('trackLabel').textContent='YouTube video';
-  playerMessage.textContent='Use the video controls to play. Some videos block embedding.';
+  playerMessage.textContent='Press play here, then browse NIGHTSHIFT while it plays.';
   playerSync();
   return;
  }
