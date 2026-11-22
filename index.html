@@ -211,10 +211,41 @@ footer {
 .puff-a{left:31%}.puff-b{left:49%;animation-delay:1.2s}.puff-c{left:81%;bottom:125px;width:65px;height:65px;animation-delay:.4s}.puff-d{left:86%;bottom:125px;width:85px;height:85px;animation-delay:2.5s}
 @keyframes smokeFloat{0%{opacity:0;transform:translate(0,0) scale(.3)}25%{opacity:.8}100%{opacity:0;transform:translate(-35px,-180px) scale(2.8)}}
 @media(max-width:650px){.dragon:after{width:90px;height:14px;right:-27px;bottom:35px}.runner:before{width:30px;height:7px}}
+
+/* NIGHTSHIFT immersive effects */
+body{position:relative}
+.night-sky{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
+.sky-stars{position:absolute;inset:0;background-image:radial-gradient(2px 2px at 12% 20%,#d7baffaa 98%,transparent),radial-gradient(2px 2px at 76% 15%,#fff9 98%,transparent),radial-gradient(1px 1px at 41% 60%,#b5a5ff 98%,transparent),radial-gradient(2px 2px at 88% 78%,#fff8 98%,transparent),radial-gradient(1px 1px at 62% 38%,#fff9 98%,transparent);background-size:310px 280px;animation:starDrift 45s linear infinite;opacity:.8}
+.sky-fog{position:absolute;inset:-30%;background:radial-gradient(ellipse at 15% 35%,#8d52d51c,transparent 38%),radial-gradient(ellipse at 75% 65%,#4d8fc71a,transparent 43%);filter:blur(35px);animation:fogDrift 18s ease-in-out infinite alternate}
+.sky-flash{position:absolute;inset:0;background:#b9a4ff;opacity:0;animation:ambientFlash 19s infinite}
+@keyframes starDrift{to{background-position:310px 280px}}
+@keyframes fogDrift{to{transform:translate(12%, -6%) scale(1.12)}}
+@keyframes ambientFlash{0%,68%,70%,71%,100%{opacity:0}68.3%{opacity:.12}70.4%{opacity:.06}}
+.effects-off .night-sky{display:none}.effects-off .rain,.effects-off .cloud,.effects-off .smoke-puff{animation-play-state:paused}
+.portal-controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:14px 0}
+.portal-trigger{background:linear-gradient(110deg,#174b3b,#1d7b59);border-color:#61ffc3;font-weight:bold;letter-spacing:1px;box-shadow:0 0 17px #44f6a344}
+.portal-trigger:hover{background:#27946d;box-shadow:0 0 25px #5cffb888}
+.dimension-label{color:#b8f8dc;font-size:12px;letter-spacing:1px;font-weight:bold}
+.portal-rift{position:absolute;z-index:3;left:48%;top:24%;width:180px;height:225px;border-radius:50%;opacity:0;pointer-events:none;transform:translate(-50%,0) scale(.08) rotate(-20deg);background:conic-gradient(from 0deg,#3fff93,#123a2c,#a7ff7b,#2be4a8,#102d24,#4dff83);border:8px solid #9fff9b;box-shadow:0 0 22px #58ff98,0 0 70px #4aff9999,inset 0 0 38px #8dffb7;transition:transform .75s cubic-bezier(.2,1.3,.3,1),opacity .3s}
+.portal-rift.open{opacity:1;transform:translate(-50%,0) scale(1) rotate(0);animation:portalWobble 2s linear infinite}
+.portal-core{position:absolute;inset:12px;border-radius:50%;background:repeating-radial-gradient(ellipse at 55% 55%,#123d32 0 8px,#2fdb81 10px 16px,#a2f98d 18px 23px,#17674d 26px 34px);animation:portalSpin 3s linear infinite;filter:contrast(1.2)}
+.portal-sparks{position:absolute;inset:-15px;border-radius:50%;border:4px dotted #d2ff99;animation:portalSpin 4s linear infinite reverse}
+@keyframes portalSpin{to{transform:rotate(360deg)}}@keyframes portalWobble{50%{filter:hue-rotate(28deg) brightness(1.2)}}
+.arena.dimension-alien{background:linear-gradient(180deg,#35134f,#722c83 58%,#1c1b3d 59%,#1b1241)}
+.arena.dimension-toxic{background:linear-gradient(180deg,#0a3d30,#236f51 58%,#14382d 59%,#0a221c)}
+.arena.dimension-ice{background:linear-gradient(180deg,#244767,#6b9cba 58%,#344f74 59%,#14283c)}
+.arena.dimension-volcanic{background:linear-gradient(180deg,#36121c,#812f23 58%,#421b25 59%,#230e15)}
+.arena.dimension-alien .moon{background:#ec82ff;box-shadow:0 0 60px #db4bff}
+.arena.dimension-toxic .moon{background:#a5ff65;box-shadow:0 0 60px #72ff58}
+.arena.dimension-ice .moon{background:#e1faff;box-shadow:0 0 60px #a4e6ff}
+.arena.dimension-volcanic .moon{background:#ff8b60;box-shadow:0 0 60px #ff673b}
+@media(max-width:650px){.portal-rift{width:120px;height:160px;left:50%;top:29%}.dimension-label{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.night-sky *, .portal-core,.portal-sparks{animation:none!important}}
 </style>
 </head>
 
-<body>
+<body><div class="night-sky" aria-hidden="true"><div class="sky-stars"></div><div class="sky-fog"></div><div class="sky-flash"></div></div>
 
 <header>
   <h1>✦ NIGHTSHIFT HUB</h1>
@@ -222,6 +253,7 @@ footer {
 </header>
 
 <nav>
+  <button id="effectsBtn" onclick="toggleEffects()" title="Turn background animations on or off">✨ Effects: ON</button>
   <button class="active" onclick="show('home',this)">Dashboard</button>
   <button onclick="show('gaming',this)">Gaming</button>
   <button onclick="show('chaos',this)">⚡ Chaos Run</button>
@@ -318,7 +350,7 @@ footer {
   <div class="game-shell">
     <div class="game-top"><strong>DIMENSION C-137 // CLOUD NINE</strong><div class="game-stats"><span>💨 Clouds: <b id="koCount">0</b>/2</span><span>🌫 VIBE: COSMIC</span></div></div>
     <div class="arena" id="arena">
-      <div class="moon"></div><div class="cloud"></div><div class="cloud c2"></div>
+      <div class="portal-rift" id="portalRift" aria-hidden="true"><div class="portal-core"></div><div class="portal-sparks"></div></div><div class="moon"></div><div class="cloud"></div><div class="cloud c2"></div>
       <div class="lightning" id="lightning"></div>
       <svg class="bolt" id="bolt" viewBox="0 0 80 180" aria-hidden="true"><path d="M46 0 15 88 39 82 25 180 68 63 44 69Z" fill="#e7edff" stroke="#fff" stroke-width="3"/></svg>
       <div class="smoke-scene" aria-hidden="true"><span class="smoke-puff puff-a"></span><span class="smoke-puff puff-b"></span><span class="smoke-puff puff-c"></span><span class="smoke-puff puff-d"></span></div>
@@ -366,7 +398,7 @@ footer {
     </div>
     <div class="game-hint">🌧 Heavy rain is falling. ⚡ Lightning flashes across the sky. 🔥 Watch out for the dragon's fire!</div>
   </div>
-  <div class="game-actions"><button class="btn" onclick="resetGame()">↻ Reset session</button><button class="btn" onclick="toggleStorm()" id="stormBtn">⛈ Toggle storm</button></div>
+  <div class="portal-controls"><button class="btn portal-trigger" onclick="openPortal()" id="portalButton">🌀 FIRE PORTAL GUN</button><span id="dimensionLabel" class="dimension-label">CURRENT DIMENSION: C-137</span></div><div class="game-actions"><button class="btn" onclick="resetGame()">↻ Reset session</button><button class="btn" onclick="toggleStorm()" id="stormBtn">⛈ Toggle storm</button></div>
   <p class="game-message" id="gameMessage">Rick and Morty are chilling with Balthromaw. Click either character!</p>
 </section>
 
@@ -586,6 +618,51 @@ function thunderFlash() {
   setTimeout(() => bolt.classList.remove('flash'), 260);
 }
 setInterval(() => { if (document.getElementById('chaos').classList.contains('active')) thunderFlash(); }, 5200);
+
+
+/* Portal gun and ambient effects */
+const portalDimensions=[
+  {id:'alien',name:'NEBULA X-9'},
+  {id:'toxic',name:'TOXIC SWAMP 420'},
+  {id:'ice',name:'FROZEN DIMENSION'},
+  {id:'volcanic',name:'LAVA WORLD'}
+];
+let portalIndex=-1;
+let portalBusy=false;
+function openPortal(){
+  if(portalBusy)return;
+  portalBusy=true;
+  const rift=document.getElementById('portalRift');
+  const arena=document.getElementById('arena');
+  const btn=document.getElementById('portalButton');
+  btn.disabled=true;
+  btn.textContent='🌀 PORTAL OPENING...';
+  rift.classList.add('open');
+  thunderFlash();
+  setTimeout(()=>{
+    arena.classList.remove('dimension-alien','dimension-toxic','dimension-ice','dimension-volcanic');
+    portalIndex=(portalIndex+1)%portalDimensions.length;
+    const next=portalDimensions[portalIndex];
+    arena.classList.add('dimension-'+next.id);
+    document.getElementById('dimensionLabel').textContent='CURRENT DIMENSION: '+next.name;
+    document.getElementById('gameMessage').textContent='Portal opened! Welcome to '+next.name+'.';
+  },700);
+  setTimeout(()=>{
+    rift.classList.remove('open');
+    btn.disabled=false;
+    btn.textContent='🌀 FIRE PORTAL GUN';
+    portalBusy=false;
+  },2400);
+}
+function toggleEffects(){
+  const off=document.body.classList.toggle('effects-off');
+  document.getElementById('effectsBtn').textContent=off?'✨ Effects: OFF':'✨ Effects: ON';
+  localStorage.setItem('nightshift-effects-off',String(off));
+}
+if(localStorage.getItem('nightshift-effects-off')==='true'){
+  document.body.classList.add('effects-off');
+  document.getElementById('effectsBtn').textContent='✨ Effects: OFF';
+}
 
 // NOTES
 const notes = document.getElementById('notesText');
