@@ -396,6 +396,14 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 @keyframes nsDragonRoar{50%{translate:-15px -12px;scale:1.1}}
 @media(max-width:650px){.ns-alien{width:53px;min-height:55px}.ns-alien span{font-size:27px}.ns-alien small{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.ns-alien{animation:nsAlienMarch 12s linear forwards}.ns-battle-burst{animation:none}}
+
+.ns-boss-hud{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:min(320px,75%);z-index:12;text-align:center;color:#fff;font:700 12px Arial,sans-serif;text-shadow:0 2px 5px #000;pointer-events:none}
+.ns-boss-hud[hidden]{display:none}
+.ns-boss-health{height:13px;border:2px solid #fff6;background:#270b24;border-radius:20px;overflow:hidden;margin:5px 0}
+.ns-boss-health i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff3b4b,#ffaf35);transition:width .2s}
+.ns-boss{width:120px;min-height:118px;background:radial-gradient(circle,#a81f59,#260923);box-shadow:0 0 30px #ff255d,0 0 0 3px #ff9b52;z-index:7}
+.ns-boss span{font-size:70px}.ns-boss small{font-size:10px}
+@media(max-width:650px){.ns-boss{width:95px;min-height:100px}.ns-boss span{font-size:55px}}
 </style>
 </head>
 
@@ -502,7 +510,7 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
   <h2>🌌 DIMENSION 420</h2>
   <p class="muted">Rick, Morty and Balthromaw defend the dimension from waves of alien species! Click aliens or use the team attacks.</p>
   <div class="game-shell">
-    <div class="game-top"><strong>DIMENSION C-137 // ALIEN SIEGE</strong><div class="game-stats"><span>👾 Aliens defeated: <b id="koCount">0</b></span><span>⚔️ TEAM BATTLE</span></div></div>
+    <div class="game-top"><strong>DIMENSION C-137 // ALIEN SIEGE</strong><div class="game-stats"><span>👾 Aliens defeated: <b id="koCount">0</b></span><span>⚔️ Wave <b id="nsWave">1</b> · ❤️ <b id="nsTeamHealth">100</b>%</span></div></div>
     <div class="arena" id="arena">
       <div class="portal-rift" id="portalRift" aria-hidden="true"><div class="portal-core"></div><div class="portal-sparks"></div></div><div class="moon"></div><div class="cloud"></div><div class="cloud c2"></div>
       <div class="lightning" id="lightning"></div>
@@ -534,7 +542,7 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 <path d="M282 164q-7 15-12 29m24-35-9 32m20-44-7 31" fill="none" stroke="#d37a7c" stroke-width="7"/>
 <path d="M111 208Q73 204 47 183Q43 222 95 235" fill="#8b3347"/>
 </g><g stroke-linecap="round" stroke-linejoin="round"><path d="M169 177q32-22 66-13M158 189q39-20 77-10M173 205q36-10 65-3" fill="none" stroke="#d78b87" stroke-width="3" opacity=".65"/><path d="M321 131q13-7 21-5M375 176q24-4 41-19" fill="none" stroke="#df9191" stroke-width="3"/><path d="M343 77q10-9 20-7M388 90q9-3 16 3" fill="none" stroke="#e8a2a2" stroke-width="3"/><path d="M57 151 96 185 66 175M348 134 311 158 350 151" fill="none" stroke="#e28b8e" stroke-width="3" opacity=".75"/><circle cx="424" cy="131" r="2.2" fill="#ec9c9e"/><path d="M389 164q17 4 28-5" fill="none" stroke="#bb6671" stroke-width="2"/></g></svg></div>
-      <div class="ns-alien-horde" id="nsAlienHorde" aria-label="Alien invaders"></div><div class="ns-battle-fx" id="nsBattleFx" aria-hidden="true"></div>
+      <div class="ns-boss-hud" id="nsBossHud" hidden><strong id="nsBossName">👑 BOSS</strong><div class="ns-boss-health"><i id="nsBossHealth"></i></div><small id="nsBossHpText"></small></div><div class="ns-alien-horde" id="nsAlienHorde" aria-label="Alien invaders"></div><div class="ns-battle-fx" id="nsBattleFx" aria-hidden="true"></div>
       <div class="rain"></div>
     </div>
     <div class="game-hint">👾 Tap aliens to blast them! Rick fires plasma, Morty sends shockwaves, and Balthromaw breathes dragon fire.</div>
@@ -769,7 +777,11 @@ function copyCommand(cmd) {
 
 // CHAOS RUN GAME
 let nsBattleScore=0;
-let nsAlienSerial=0;
+let nsWave=1;
+let nsTeamHealth=100;
+let nsBossActive=false;
+let nsBattleEnded=false;
+let nsBossKills=0;
 const nsAlienSpecies=[
  {face:'👽',kind:'ZORG',hp:1},{face:'👾',kind:'VOIDLING',hp:2},
  {face:'🦠',kind:'SPORE BEAST',hp:1},{face:'🪼',kind:'NEBULA JELLY',hp:2},
@@ -778,31 +790,35 @@ const nsAlienSpecies=[
 function nsBattleMessage(message){document.getElementById('gameMessage').textContent=message;}
 function nsSpawnAlien(){
  const horde=document.getElementById('nsAlienHorde');
- if(!horde || horde.children.length>=12)return;
- const species=nsAlienSpecies[Math.floor(Math.random()*nsAlienSpecies.length)];
+ if(!horde || horde.children.length>=12 || nsBattleEnded || nsBossActive)return;
+ const species=nsAlienSpecies[Math.floor(Math.random()*Math.min(nsAlienSpecies.length,2+nsWave))];
  const alien=document.createElement('button');
  alien.type='button';alien.className='ns-alien';
- alien.dataset.hp=String(species.hp);alien.dataset.kind=species.kind;
+ alien.dataset.hp=String(species.hp+Math.floor((nsWave-1)/3));alien.dataset.kind=species.kind;
  alien.style.setProperty('--alien-y',String(12+Math.random()*66)+'%');
  alien.style.setProperty('--alien-delay',String(Math.random()*-.5)+'s');
- alien.style.setProperty('--alien-speed',String(8+Math.random()*5)+'s');
+ alien.style.setProperty('--alien-speed',String(Math.max(4,8-nsWave*.4)+Math.random()*4)+'s');
  alien.innerHTML='<span aria-hidden="true">'+species.face+'</span><small>'+species.kind+'</small>';
  alien.setAttribute('aria-label','Attack '+species.kind);
  alien.addEventListener('click',()=>nsHitAlien(alien,1,'🎯 Direct hit!'));
- alien.addEventListener('animationend',e=>{if(e.animationName==='nsAlienMarch'&&alien.isConnected){alien.remove();nsBattleMessage('⚠️ An alien slipped past the defenders!')}})
+ alien.addEventListener('animationend',e=>{if(e.animationName==='nsAlienMarch'&&alien.isConnected){alien.remove();nsDamageTeam(alien.classList.contains('ns-boss')?30:8);nsBattleMessage('⚠️ An alien slipped past the defenders!')}})
  horde.appendChild(alien);
 }
 function nsHitAlien(alien,damage,message){
  if(!alien||!alien.isConnected)return;
  const hp=Number(alien.dataset.hp)-damage;
  alien.dataset.hp=String(hp);
+ if(alien.classList.contains('ns-boss'))nsUpdateBossHud(alien);
  alien.classList.remove('ns-alien-hit');void alien.offsetWidth;alien.classList.add('ns-alien-hit');
  if(hp<=0){
   const rect=alien.getBoundingClientRect(),arena=document.getElementById('arena').getBoundingClientRect();
   nsBattleBurst(rect.left-arena.left+rect.width/2,rect.top-arena.top+rect.height/2,'💥');
-  alien.remove();nsBattleScore++;
+  const bossDefeated=alien.classList.contains('ns-boss');
+  alien.remove();if(bossDefeated){nsBossActive=false;nsBossKills++;document.getElementById('nsBossHud').hidden=true;nsTeamHealth=Math.min(100,nsTeamHealth+25);document.getElementById('nsTeamHealth').textContent=String(nsTeamHealth);}
+  nsBattleScore++;
   document.getElementById('koCount').textContent=String(nsBattleScore);
-  if(nsBattleScore%10===0)nsBattleMessage('🏆 WAVE CLEARED! '+nsBattleScore+' aliens defeated! The team is unstoppable!');
+  if(bossDefeated){nsBattleMessage('🏆 BOSS DEFEATED! +25 team health! The next wave begins!');nsAdvanceWave();}
+  else if(nsBattleScore%10===0){nsBattleMessage('🏆 10 MORE ALIENS DEFEATED! New wave incoming!');nsAdvanceWave();}
   else nsBattleMessage(message+' '+alien.dataset.kind+' defeated! Total: '+nsBattleScore);
  }
 }
@@ -815,7 +831,7 @@ function nsAttackTeam(who){
  const horde=[...document.querySelectorAll('#nsAlienHorde .ns-alien')];
  const targetCount=who==='rick'?2:3;
  const damage=who==='rick'?2:1;
- const chosen=horde.slice(-targetCount);
+ const chosen=horde.filter(a=>a.classList.contains('ns-boss')).concat(horde.filter(a=>!a.classList.contains('ns-boss')).slice(-targetCount)).slice(0,targetCount);
  const runner=document.getElementById(who);
  runner.classList.remove('ns-attacking');void runner.offsetWidth;runner.classList.add('ns-attacking');
  setTimeout(()=>runner.classList.remove('ns-attacking'),550);
@@ -830,18 +846,56 @@ function nsDragonAttack(){
  setTimeout(()=>dragon.classList.remove('ns-dragon-roar'),800);
  const targets=[...document.querySelectorAll('#nsAlienHorde .ns-alien')];
  if(!targets.length){nsSpawnAlien();nsBattleMessage('🐉 Balthromaw roars! More invaders are approaching!');return;}
- targets.forEach(a=>nsHitAlien(a,5,'🔥 Balthromaw incinerated a'));
+ targets.forEach(a=>nsHitAlien(a,a.classList.contains('ns-boss')?2:5,'🔥 Balthromaw incinerated a'));
  nsBattleBurst(document.getElementById('arena').clientWidth*.72,145,'🔥');
 }
+
+function nsDamageTeam(amount){
+ if(nsBattleEnded)return;
+ nsTeamHealth=Math.max(0,nsTeamHealth-amount);
+ document.getElementById('nsTeamHealth').textContent=String(nsTeamHealth);
+ if(nsTeamHealth===0){nsBattleEnded=true;document.getElementById('nsAlienHorde').replaceChildren();document.getElementById('nsBossHud').hidden=true;nsBattleMessage('💀 DIMENSION OVERRUN! '+nsBattleScore+' aliens defeated. Hit RESET BATTLE to try again!');}
+}
+function nsUpdateBossHud(alien){
+ const hp=Math.max(0,Number(alien.dataset.hp)),max=Number(alien.dataset.maxhp);
+ document.getElementById('nsBossHealth').style.width=(100*hp/max)+'%';
+ document.getElementById('nsBossHpText').textContent=hp+' / '+max+' HP';
+}
+function nsAdvanceWave(){
+ if(nsBattleEnded||nsBossActive)return;
+ nsWave++;document.getElementById('nsWave').textContent=String(nsWave);
+ if(nsWave%3===0)nsSpawnBoss();
+ else for(let i=0;i<Math.min(6,nsWave+2);i++)nsSpawnAlien();
+}
+function nsSpawnBoss(){
+ if(nsBattleEnded||nsBossActive)return;
+ nsBossActive=true;
+ const bosses=[{face:'👹',name:'THE ABYSS TYRANT'},{face:'🪲',name:'GALACTIC HIVE QUEEN'},{face:'🧟',name:'VOID EMPEROR'}];
+ const b=bosses[nsBossKills%bosses.length],hp=14+nsWave*4;
+ const alien=document.createElement('button');alien.type='button';
+ alien.className='ns-alien ns-boss';alien.dataset.hp=String(hp);alien.dataset.maxhp=String(hp);alien.dataset.kind=b.name;
+ alien.style.setProperty('--alien-y','30%');alien.style.setProperty('--alien-speed','24s');
+ alien.innerHTML='<span aria-hidden="true">'+b.face+'</span><small>'+b.name+'</small>';
+ alien.setAttribute('aria-label','Attack boss '+b.name);
+ alien.addEventListener('click',()=>nsHitAlien(alien,1,'👑 Boss hit!'));
+ alien.addEventListener('animationend',e=>{if(e.animationName==='nsAlienMarch'&&alien.isConnected){alien.remove();nsBossActive=false;document.getElementById('nsBossHud').hidden=true;nsDamageTeam(35);nsBattleMessage('💥 The boss broke through! Defend the next wave!');nsAdvanceWave();}});
+ document.getElementById('nsAlienHorde').appendChild(alien);
+ document.getElementById('nsBossName').textContent='👑 '+b.name;
+ document.getElementById('nsBossHud').hidden=false;nsUpdateBossHud(alien);
+ nsBattleMessage('🚨 BOSS WAVE '+nsWave+'! '+b.name+' HAS ARRIVED! Combine your attacks!');
+ thunderFlash();
+}
+
 function resetGame(){
- nsBattleScore=0;document.getElementById('koCount').textContent='0';
+ nsBattleScore=0;nsWave=1;nsTeamHealth=100;nsBossActive=false;nsBattleEnded=false;nsBossKills=0;
+ document.getElementById('koCount').textContent='0';document.getElementById('nsWave').textContent='1';document.getElementById('nsTeamHealth').textContent='100';document.getElementById('nsBossHud').hidden=true;
  document.getElementById('nsAlienHorde').replaceChildren();
  document.getElementById('nsBattleFx').replaceChildren();
  for(let i=0;i<5;i++)nsSpawnAlien();
  nsBattleMessage('⚔️ New alien wave! Rick, Morty and Balthromaw are ready!');
 }
-setInterval(()=>{if(document.getElementById('chaos').classList.contains('active'))nsSpawnAlien()},1800);
-setInterval(()=>{if(document.getElementById('chaos').classList.contains('active')&&document.querySelector('#nsAlienHorde .ns-alien'))nsDragonAttack()},11000);
+setInterval(()=>{if(document.getElementById('chaos').classList.contains('active')&&!nsBattleEnded)nsSpawnAlien()},1800);
+setInterval(()=>{if(document.getElementById('chaos').classList.contains('active')&&!nsBattleEnded&&document.querySelector('#nsAlienHorde .ns-alien'))nsDragonAttack()},11000);
 setTimeout(()=>{for(let i=0;i<5;i++)nsSpawnAlien()},500);
 function toggleStorm() {
   const rain = document.querySelector('.rain');
