@@ -242,6 +242,27 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 .arena.dimension-volcanic .moon{background:#ff8b60;box-shadow:0 0 60px #ff673b}
 @media(max-width:650px){.portal-rift{width:120px;height:160px;left:50%;top:29%}.dimension-label{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.night-sky *, .portal-core,.portal-sparks{animation:none!important}}
+
+/* Floating NIGHTSHIFT music widget */
+.night-player{position:fixed;right:18px;bottom:18px;z-index:120;width:min(330px,calc(100vw - 30px));font-family:Arial,sans-serif;color:#f3eaff}
+.player-toggle{display:flex;align-items:center;gap:9px;margin-left:auto;padding:12px 17px;background:linear-gradient(125deg,#522d88,#251735);border:1px solid #b58aff;border-radius:30px;color:white;font-weight:bold;letter-spacing:1px;cursor:pointer;box-shadow:0 6px 28px #000a,0 0 18px #a56aff55}
+.player-panel{margin-bottom:10px;padding:15px;border:1px solid #a97de9;border-radius:18px;background:linear-gradient(145deg,#20172ff5,#0d0c19f8);box-shadow:0 15px 55px #000b,0 0 25px #a56aff22;backdrop-filter:blur(18px)}
+.player-panel[hidden]{display:none}
+.player-heading{display:flex;align-items:center;gap:11px}.player-heading strong{display:block;font-size:13px;letter-spacing:1.3px;color:#e1c8ff}.player-heading small{display:block;font-size:11px;color:#afa0c4;margin-top:5px;max-width:185px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-cover{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:12px;background:linear-gradient(145deg,#7a47bf,#372154);font-size:28px}
+.player-close{margin-left:auto;align-self:start;background:transparent;border:0;color:#ddd0f1;font-size:23px;cursor:pointer}
+.player-visualizer{height:34px;display:flex;justify-content:center;align-items:center;gap:4px;margin:10px 0}
+.player-visualizer i{width:5px;height:8px;border-radius:5px;background:linear-gradient(#a5f7d4,#a57aff);animation:playerBeat .9s ease-in-out infinite alternate;animation-play-state:paused}
+.night-player.playing .player-visualizer i{animation-play-state:running}
+.player-visualizer i:nth-child(3n){animation-delay:-.3s;height:23px}.player-visualizer i:nth-child(4n){animation-delay:-.6s;height:15px}.player-visualizer i:nth-child(5n){animation-delay:-.15s;height:27px}
+@keyframes playerBeat{to{height:5px;opacity:.55}}
+.player-url-label{display:block;color:#bdb0d2;font-size:11px;margin-bottom:6px}
+.player-load{display:flex;gap:6px}.player-load input{min-width:0;flex:1;margin:0;padding:9px;font-size:12px}.player-load button,.player-buttons button{border:1px solid #9065d1;background:#5d388e;color:white;border-radius:9px;padding:8px 12px;cursor:pointer}
+.player-buttons{display:flex;align-items:center;gap:8px;margin-top:13px}.player-buttons span{font-size:10px;color:#c5b9d5}.player-buttons input{flex:1;min-width:0}
+.player-volume{display:flex;align-items:center;gap:8px;margin-top:11px}.player-volume input{width:65px;flex:none}.player-volume small{font-size:10px;color:#a99bbf;line-height:1.3}
+.night-player input[type=range]{accent-color:#ae81ff;padding:0;height:6px}
+@media(max-width:500px){.night-player{right:10px;bottom:10px}}
+@media(prefers-reduced-motion:reduce){.player-visualizer i{animation:none}}
 </style>
 </head>
 
@@ -458,6 +479,18 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 </main>
 
 <footer>NIGHTSHIFT HUB · Built for learning, gaming and creating.</footer>
+<div id="nightPlayer" class="night-player" aria-label="NIGHTSHIFT floating music player">
+  <button class="player-toggle" id="playerToggle" onclick="togglePlayer()" aria-expanded="false" aria-controls="playerPanel">♫ <span>MUSIC</span></button>
+  <div id="playerPanel" class="player-panel" hidden>
+    <div class="player-heading"><div class="player-cover">♫</div><div><strong>NIGHTSHIFT RADIO</strong><small id="trackLabel">Load an audio link to play</small></div><button class="player-close" onclick="togglePlayer()" aria-label="Minimize player">×</button></div>
+    <div class="player-visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <label class="player-url-label" for="trackUrl">Audio file URL (MP3, WAV, OGG)</label>
+    <div class="player-load"><input id="trackUrl" type="url" placeholder="https://example.com/song.mp3" aria-label="Audio file URL"><button onclick="loadNightTrack()">Load</button></div>
+    <div class="player-buttons"><button onclick="toggleNightAudio()" id="playNightBtn" aria-label="Play or pause">▶</button><span id="playerCurrent">0:00</span><input id="playerSeek" type="range" min="0" max="100" value="0" aria-label="Track progress"><span id="playerDuration">0:00</span></div>
+    <div class="player-volume"><span>🔊</span><input id="playerVolume" type="range" min="0" max="100" value="70" aria-label="Volume"><small id="playerMessage">Direct audio file links work best.</small></div>
+    <audio id="nightAudio" preload="metadata"></audio>
+  </div>
+</div>
 
 <script>
 function show(id,btn) {
@@ -663,6 +696,62 @@ if(localStorage.getItem('nightshift-effects-off')==='true'){
   document.body.classList.add('effects-off');
   document.getElementById('effectsBtn').textContent='✨ Effects: OFF';
 }
+
+
+/* Floating audio player: user-provided direct audio URLs only */
+const nightAudio=document.getElementById('nightAudio');
+const playerPanel=document.getElementById('playerPanel');
+const playerSeek=document.getElementById('playerSeek');
+const playerMessage=document.getElementById('playerMessage');
+nightAudio.volume=.7;
+function togglePlayer(){
+  const opening=playerPanel.hidden;
+  playerPanel.hidden=!opening;
+  document.getElementById('playerToggle').setAttribute('aria-expanded',String(opening));
+}
+function playerTime(t){
+  if(!Number.isFinite(t))return '0:00';
+  return Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0');
+}
+function playerSync(){
+  document.getElementById('playNightBtn').textContent=nightAudio.paused?'▶':'❚❚';
+  document.getElementById('nightPlayer').classList.toggle('playing',!nightAudio.paused);
+}
+function loadNightTrack(){
+  const input=document.getElementById('trackUrl');
+  const url=input.value.trim();
+  if(!/^https?:\/\//i.test(url)){playerMessage.textContent='Enter a direct HTTPS audio link.';return}
+  try{
+    const parsed=new URL(url);
+    if(!['http:','https:'].includes(parsed.protocol))throw Error('invalid');
+    nightAudio.pause();
+    nightAudio.src=parsed.href;
+    nightAudio.load();
+    document.getElementById('trackLabel').textContent=decodeURIComponent(parsed.pathname.split('/').pop()||'Custom audio').slice(0,45);
+    playerMessage.textContent='Loaded. Press play to listen.';
+    playerSeek.value=0;
+    playerSync();
+  }catch(e){playerMessage.textContent='That audio URL is invalid.'}
+}
+async function toggleNightAudio(){
+  if(!nightAudio.src){playerMessage.textContent='Load an audio file URL first.';return}
+  if(!nightAudio.paused){nightAudio.pause();return}
+  try{await nightAudio.play();playerMessage.textContent='Now playing';}catch(e){playerMessage.textContent='Cannot play this link. Try a direct MP3 URL.'}
+}
+nightAudio.addEventListener('play',playerSync);
+nightAudio.addEventListener('pause',playerSync);
+nightAudio.addEventListener('ended',playerSync);
+nightAudio.addEventListener('error',()=>{playerMessage.textContent='Audio unavailable. Try another direct file link.';playerSync()});
+nightAudio.addEventListener('loadedmetadata',()=>{document.getElementById('playerDuration').textContent=playerTime(nightAudio.duration)});
+nightAudio.addEventListener('timeupdate',()=>{
+ document.getElementById('playerCurrent').textContent=playerTime(nightAudio.currentTime);
+ if(Number.isFinite(nightAudio.duration)&&nightAudio.duration>0)playerSeek.value=String(100*nightAudio.currentTime/nightAudio.duration);
+});
+playerSeek.addEventListener('input',()=>{
+ if(Number.isFinite(nightAudio.duration)&&nightAudio.duration>0)nightAudio.currentTime=nightAudio.duration*(Number(playerSeek.value)/100);
+});
+document.getElementById('playerVolume').addEventListener('input',e=>{nightAudio.volume=Number(e.target.value)/100});
+document.getElementById('trackUrl').addEventListener('keydown',e=>{if(e.key==='Enter')loadNightTrack()});
 
 // NOTES
 const notes = document.getElementById('notesText');
