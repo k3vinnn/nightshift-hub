@@ -263,6 +263,8 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 .night-player input[type=range]{accent-color:#ae81ff;padding:0;height:6px}
 @media(max-width:500px){.night-player{right:10px;bottom:10px}}
 @media(prefers-reduced-motion:reduce){.player-visualizer i{animation:none}}
+
+.youtube-search{display:flex;gap:6px;margin-top:9px}.youtube-search input{min-width:0;flex:1;margin:0;padding:9px;font-size:12px}.youtube-search button{border:1px solid #9065d1;background:#5d388e;color:white;border-radius:9px;padding:8px 12px;cursor:pointer}.youtube-embed{margin-top:10px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#0b0b14}.youtube-embed[hidden]{display:none}.youtube-embed iframe{width:100%;height:100%;border:0}.night-player.youtube-mode .player-buttons,.night-player.youtube-mode .player-volume{display:none}
 </style>
 </head>
 
@@ -484,10 +486,10 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
   <div id="playerPanel" class="player-panel" hidden>
     <div class="player-heading"><div class="player-cover">♫</div><div><strong>NIGHTSHIFT RADIO</strong><small id="trackLabel">Load an audio link to play</small></div><button class="player-close" onclick="togglePlayer()" aria-label="Minimize player">×</button></div>
     <div class="player-visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <label class="player-url-label" for="trackUrl">Audio file URL (MP3, WAV, OGG)</label>
-    <div class="player-load"><input id="trackUrl" type="url" placeholder="https://example.com/song.mp3" aria-label="Audio file URL"><button onclick="loadNightTrack()">Load</button></div>
-    <div class="player-buttons"><button onclick="toggleNightAudio()" id="playNightBtn" aria-label="Play or pause">▶</button><span id="playerCurrent">0:00</span><input id="playerSeek" type="range" min="0" max="100" value="0" aria-label="Track progress"><span id="playerDuration">0:00</span></div>
-    <div class="player-volume"><span>🔊</span><input id="playerVolume" type="range" min="0" max="100" value="70" aria-label="Volume"><small id="playerMessage">Direct audio file links work best.</small></div>
+    <label class="player-url-label" for="trackUrl">YouTube video link or direct audio URL</label>
+    <div class="player-load"><input id="trackUrl" type="url" placeholder="Paste YouTube or MP3 link" aria-label="Audio file URL"><button onclick="loadNightTrack()">Load</button></div>
+    <div class="youtube-search"><input id="youtubeSearch" placeholder="Search artist + song (e.g. FattMack Listen)" aria-label="Search songs on YouTube"><button onclick="searchNightYouTube()">Search</button></div><div id="youtubeEmbed" class="youtube-embed" hidden></div><div class="player-buttons"><button onclick="toggleNightAudio()" id="playNightBtn" aria-label="Play or pause">▶</button><span id="playerCurrent">0:00</span><input id="playerSeek" type="range" min="0" max="100" value="0" aria-label="Track progress"><span id="playerDuration">0:00</span></div>
+    <div class="player-volume"><span>🔊</span><input id="playerVolume" type="range" min="0" max="100" value="70" aria-label="Volume"><small id="playerMessage">Search YouTube, then paste a video link.</small></div>
     <audio id="nightAudio" preload="metadata"></audio>
   </div>
 </div>
@@ -752,6 +754,55 @@ playerSeek.addEventListener('input',()=>{
 });
 document.getElementById('playerVolume').addEventListener('input',e=>{nightAudio.volume=Number(e.target.value)/100});
 document.getElementById('trackUrl').addEventListener('keydown',e=>{if(e.key==='Enter')loadNightTrack()});
+
+
+/* YouTube search and embedded video support */
+function searchNightYouTube(){
+ const q=document.getElementById('youtubeSearch').value.trim();
+ if(!q){playerMessage.textContent='Type an artist and song first.';return}
+ window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q),'_blank','noopener,noreferrer');
+ playerMessage.textContent='Choose a video, copy its URL, and paste it above.';
+}
+function nightYouTubeId(value){
+ try{
+  const u=new URL(value);
+  const host=u.hostname.toLowerCase().replace(/^www\./,'').replace(/^m\./,'');
+  let id='';
+  if(host==='youtu.be')id=u.pathname.slice(1).split('/')[0];
+  else if(host==='youtube.com'||host==='youtube-nocookie.com'){
+   if(u.pathname==='/watch')id=u.searchParams.get('v')||'';
+   else if(/^\/(shorts|embed|live)\//.test(u.pathname))id=u.pathname.split('/')[2]||'';
+  }
+  return /^[a-zA-Z0-9_-]{11}$/.test(id)?id:null;
+ }catch(e){return null}
+}
+const originalNightLoad=loadNightTrack;
+loadNightTrack=function(){
+ const url=document.getElementById('trackUrl').value.trim();
+ const videoId=nightYouTubeId(url);
+ const embed=document.getElementById('youtubeEmbed');
+ const widget=document.getElementById('nightPlayer');
+ if(videoId){
+  nightAudio.pause();nightAudio.removeAttribute('src');nightAudio.load();
+  embed.replaceChildren();
+  const iframe=document.createElement('iframe');
+  iframe.src='https://www.youtube-nocookie.com/embed/'+videoId+'?playsinline=1&rel=0';
+  iframe.title='YouTube music player';
+  iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  iframe.referrerPolicy='strict-origin-when-cross-origin';
+  iframe.allowFullscreen=true;
+  embed.appendChild(iframe);
+  embed.hidden=false;
+  widget.classList.add('youtube-mode');
+  document.getElementById('trackLabel').textContent='YouTube video';
+  playerMessage.textContent='Use the video controls to play. Some videos block embedding.';
+  playerSync();
+  return;
+ }
+ embed.replaceChildren();embed.hidden=true;widget.classList.remove('youtube-mode');
+ originalNightLoad();
+};
+document.getElementById('youtubeSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchNightYouTube()});
 
 // NOTES
 const notes = document.getElementById('notesText');
