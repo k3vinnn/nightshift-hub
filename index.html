@@ -342,6 +342,43 @@ body.ns-dimension-horror:before{content:"";position:fixed;inset:0;z-index:1;poin
 .ns-bot-form{display:flex;gap:7px}.ns-bot-form input{min-width:0;flex:1;margin:0;padding:9px;font-size:12px}.ns-bot-form button{background:#6c46a1;border:0;border-radius:8px;color:white;padding:0 13px;cursor:pointer}
 @media(max-width:500px){.ns-bot{left:10px;bottom:10px}.ns-bot-toggle span{font-size:11px}.night-player{right:10px}}
 @media(prefers-reduced-motion:reduce){body.ns-dimension-horror:before,body.ns-dimension-horror .sky-flash{animation:none!important}}
+
+/* TOXIC TYPE — animated slime-drip heading system */
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Rubik+Wet+Paint&display=swap');
+:root{--slime:#b5ff45;--slime-shadow:#36ef8b}
+header h1,main section>h2,.game-top strong,.ns-dim-card strong{
+ font-family:'Rubik Wet Paint','Creepster',Impact,fantasy!important;
+ font-weight:400;letter-spacing:1.5px;
+ color:var(--slime)!important;
+ -webkit-text-stroke:.35px #173d26;
+ text-shadow:0 2px 0 #245a29,0 4px 0 #17441c,0 0 12px #80ff4f99,0 0 30px #3dff7d55;
+}
+header h1{position:relative;display:inline-block;font-size:clamp(36px,6.2vw,76px);line-height:1.25;letter-spacing:2px;padding-bottom:22px;isolation:isolate;filter:drop-shadow(0 0 10px #76ff5777)}
+header h1:after{content:"";position:absolute;pointer-events:none;left:3%;right:4%;top:74%;height:39px;z-index:-1;
+ background:
+ radial-gradient(ellipse 7px 8px at 8% 3%,var(--slime) 98%,transparent 100%),
+ radial-gradient(ellipse 9px 8px at 25% 3%,var(--slime) 98%,transparent 100%),
+ radial-gradient(ellipse 8px 8px at 43% 3%,var(--slime) 98%,transparent 100%),
+ radial-gradient(ellipse 9px 8px at 66% 3%,var(--slime) 98%,transparent 100%),
+ radial-gradient(ellipse 8px 8px at 86% 3%,var(--slime) 98%,transparent 100%),
+ linear-gradient(var(--slime),var(--slime)) 8% 0/8px 22px no-repeat,
+ linear-gradient(var(--slime),var(--slime)) 25% 0/10px 35px no-repeat,
+ linear-gradient(var(--slime),var(--slime)) 43% 0/7px 16px no-repeat,
+ linear-gradient(var(--slime),var(--slime)) 66% 0/9px 29px no-repeat,
+ linear-gradient(var(--slime),var(--slime)) 86% 0/7px 24px no-repeat;
+ background-repeat:no-repeat;filter:drop-shadow(0 0 5px #76ff55);
+ animation:nsSlimeStretch 3.8s ease-in-out infinite alternate;transform-origin:top;
+}
+@keyframes nsSlimeStretch{0%{transform:scaleY(.65) translateY(-3px);opacity:.86}50%{transform:scaleY(1.12) translateY(2px)}100%{transform:scaleY(.84) translateY(-1px)}}
+main section>h2{font-size:clamp(28px,4vw,43px);line-height:1.35;margin-bottom:16px}
+nav button{font-family:'Creepster',Impact,fantasy;font-size:17px;letter-spacing:.65px}
+.ns-dim-card strong{font-size:18px}
+body.ns-dimension-neon{--slime:#85ff65}
+body.ns-dimension-frost{--slime:#a0f4ff;--slime-shadow:#61d9ff}
+body.ns-dimension-inferno{--slime:#ff9d4a;--slime-shadow:#ff6c45}
+body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
+@media(max-width:520px){header h1{font-size:clamp(29px,8vw,45px);padding-bottom:17px}header h1:after{height:27px;top:78%}nav button{font-size:15px}}
+@media(prefers-reduced-motion:reduce){header h1:after{animation:none}}
 </style>
 </head>
 
