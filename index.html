@@ -199,6 +199,18 @@ footer {
 
 .runner svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 4px 3px #0008)}.runner{height:190px;width:112px}.runner .character-label{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:#161021c9;border:1px solid #b58aff77;padding:4px 8px;border-radius:7px}.dragon{font-size:initial;width:260px;height:225px;right:0;bottom:49px}.dragon svg{width:100%;height:100%;filter:drop-shadow(0 5px 7px #000a)}@media(max-width:650px){.runner{width:86px;height:155px}.dragon{width:185px;height:175px;right:-22px;bottom:45px}}
 .runner.rick{left:20%}.runner.morty{left:39%}.runner svg{height:100%;width:100%;object-fit:contain}.runner{height:215px;width:126px;bottom:48px}.dragon{width:330px;height:240px;right:-15px;bottom:45px}.dragon svg{width:100%;height:100%}@media(max-width:650px){.runner{height:170px;width:90px}.runner.rick{left:4%}.runner.morty{left:28%}.dragon{width:215px;height:175px;right:-42px;bottom:48px}}
+
+.arena{background:radial-gradient(ellipse at 70% 30%,#55336b 0%,#24213e 45%,#101322 100%)}
+.runner{overflow:visible}.runner svg{overflow:visible}
+.runner:before{content:"";position:absolute;z-index:10;width:48px;height:9px;border:1.5px solid #39291f;border-radius:4px;background:linear-gradient(90deg,#c8a36b 0 16%,#eee1c4 16% 86%,#ff7945 86%);top:39%;left:68%;transform:rotate(-24deg);box-shadow:0 0 7px #ff8d4c88}
+.runner.morty:before{width:37px;top:43%;left:68%;transform:rotate(-14deg)}
+.dragon{overflow:visible}
+.dragon:after{content:"";position:absolute;z-index:12;width:145px;height:20px;right:-60px;bottom:46px;border:3px solid #513d2c;border-radius:8px;background:linear-gradient(90deg,#c6a56e 0 17%,#f4e5c5 17% 88%,#ff7141 88%);transform:rotate(-15deg);box-shadow:0 0 18px #ff8d4c55}
+.smoke-scene{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:hidden}
+.smoke-puff{position:absolute;bottom:140px;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle,#e5f9f5b0,#9be8d654 65%,transparent 75%);filter:blur(5px);animation:smokeFloat 4.8s ease-out infinite}
+.puff-a{left:31%}.puff-b{left:49%;animation-delay:1.2s}.puff-c{left:81%;bottom:125px;width:65px;height:65px;animation-delay:.4s}.puff-d{left:86%;bottom:125px;width:85px;height:85px;animation-delay:2.5s}
+@keyframes smokeFloat{0%{opacity:0;transform:translate(0,0) scale(.3)}25%{opacity:.8}100%{opacity:0;transform:translate(-35px,-180px) scale(2.8)}}
+@media(max-width:650px){.dragon:after{width:90px;height:14px;right:-27px;bottom:35px}.runner:before{width:30px;height:7px}}
 </style>
 </head>
 
@@ -301,15 +313,15 @@ footer {
 
 
 <section id="chaos">
-  <h2>⚡ CHAOS RUN</h2>
-  <p class="muted">A stormy little survival scene. Click Rick or Morty to knock them out of the chase. Can you get them both?</p>
+  <h2>🌌 DIMENSION 420</h2>
+  <p class="muted">Rick, Morty and Balthromaw take an interdimensional break. Click Rick or Morty for a smoke-cloud surprise.</p>
   <div class="game-shell">
-    <div class="game-top"><strong>DIMENSION C-137 // STORM ALERT</strong><div class="game-stats"><span>☠ KOs: <b id="koCount">0</b>/2</span><span>⛈ WEATHER: EXTREME</span></div></div>
+    <div class="game-top"><strong>DIMENSION C-137 // CLOUD NINE</strong><div class="game-stats"><span>💨 Clouds: <b id="koCount">0</b>/2</span><span>🌫 VIBE: COSMIC</span></div></div>
     <div class="arena" id="arena">
       <div class="moon"></div><div class="cloud"></div><div class="cloud c2"></div>
       <div class="lightning" id="lightning"></div>
       <svg class="bolt" id="bolt" viewBox="0 0 80 180" aria-hidden="true"><path d="M46 0 15 88 39 82 25 180 68 63 44 69Z" fill="#e7edff" stroke="#fff" stroke-width="3"/></svg>
-      <div class="fire"></div>
+      <div class="smoke-scene" aria-hidden="true"><span class="smoke-puff puff-a"></span><span class="smoke-puff puff-b"></span><span class="smoke-puff puff-c"></span><span class="smoke-puff puff-d"></span></div>
       <div class="runner rick" id="rick" role="button" tabindex="0" aria-label="Click Rick to knock him out" onclick="knockout('rick')"><svg viewBox="0 0 140 230" aria-hidden="true"><g stroke="#343238" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
 <path d="M51 162 46 212 57 216 75 171 86 213 99 211 93 151Z" fill="#65503a"/><path d="m45 207-5 13 22 1 1-8m21-4-1 13 24-1-8-13" fill="#3a3130"/>
 <path d="M42 104 30 139 14 116 8 124 30 160 45 144 50 167 95 166 95 139 113 105 119 112 108 150 98 156 95 101 76 95Z" fill="#e6f1ed"/>
@@ -354,8 +366,8 @@ footer {
     </div>
     <div class="game-hint">🌧 Heavy rain is falling. ⚡ Lightning flashes across the sky. 🔥 Watch out for the dragon's fire!</div>
   </div>
-  <div class="game-actions"><button class="btn" onclick="resetGame()">↻ Restart chase</button><button class="btn" onclick="toggleStorm()" id="stormBtn">⛈ Toggle storm</button></div>
-  <p class="game-message" id="gameMessage">The dragon is closing in. Click a character to knock them out!</p>
+  <div class="game-actions"><button class="btn" onclick="resetGame()">↻ Reset session</button><button class="btn" onclick="toggleStorm()" id="stormBtn">⛈ Toggle storm</button></div>
+  <p class="game-message" id="gameMessage">Rick and Morty are chilling with Balthromaw. Click either character!</p>
 </section>
 
 <section id="lab">
@@ -549,13 +561,13 @@ function knockout(name) {
   document.getElementById(name).classList.add('ko');
   document.getElementById('koCount').textContent = knockedOut.size;
   const message = document.getElementById('gameMessage');
-  message.textContent = knockedOut.size === 2 ? 'BOTH DOWN. The dragon wins this round. Hit restart to run it back.' : (name === 'rick' ? 'Rick got caught in the chaos! Morty is still running!' : 'Morty is out! Rick is still trying to escape!');
+  message.textContent = knockedOut.size === 2 ? 'CLOUD NINE. The whole dimension disappeared into smoke!' : (name === 'rick' ? 'Rick just blew a massive smoke ring!' : 'Morty coughed and vanished into the smoke!');
 }
 function resetGame() {
   knockedOut.clear();
   ['rick','morty'].forEach(id => document.getElementById(id).classList.remove('ko'));
   document.getElementById('koCount').textContent = '0';
-  document.getElementById('gameMessage').textContent = 'The chase is back on. Click Rick or Morty!';
+  document.getElementById('gameMessage').textContent = 'The session restarted. Click Rick or Morty!';
 }
 function toggleStorm() {
   const rain = document.querySelector('.rain');
