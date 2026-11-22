@@ -379,6 +379,23 @@ body.ns-dimension-inferno{--slime:#ff9d4a;--slime-shadow:#ff6c45}
 body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 @media(max-width:520px){header h1{font-size:clamp(29px,8vw,45px);padding-bottom:17px}header h1:after{height:27px;top:78%}nav button{font-size:15px}}
 @media(prefers-reduced-motion:reduce){header h1:after{animation:none}}
+
+/* Chaos Run alien siege */
+.ns-alien-horde{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
+.ns-alien{position:absolute;top:var(--alien-y);left:100%;width:66px;min-height:67px;border:0;background:radial-gradient(circle,#4d2366dd,#120c29ed);border-radius:46% 46% 40% 40%;box-shadow:0 0 14px #ad5cffaa,0 0 0 2px #b2ff7b55;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;color:#d7ffb8;cursor:crosshair;pointer-events:auto;z-index:5;animation:nsAlienMarch var(--alien-speed) linear var(--alien-delay) forwards,nsAlienBob .5s ease-in-out infinite alternate}
+.ns-alien span{font-size:34px;line-height:1}.ns-alien small{font:700 8px Arial,sans-serif;letter-spacing:.3px;text-shadow:0 1px 3px #000}
+.ns-alien:hover{filter:brightness(1.4);box-shadow:0 0 24px #7aff74}
+.ns-alien-hit{filter:brightness(2) saturate(1.8)!important}
+.ns-battle-fx{position:absolute;inset:0;z-index:9;pointer-events:none}
+.ns-battle-burst{position:absolute;font-size:42px;transform:translate(-50%,-50%);animation:nsBattlePop .65s ease-out forwards}
+.runner.ns-attacking{filter:drop-shadow(0 0 18px #79ff70)!important;animation:nsAttackKick .5s ease-out!important}
+.dragon.ns-dragon-roar{filter:drop-shadow(0 0 30px #ff5722)!important;animation:nsDragonRoar .7s ease-in-out!important}
+@keyframes nsAlienMarch{to{left:-90px}}@keyframes nsAlienBob{to{translate:0 -10px}}
+@keyframes nsBattlePop{0%{opacity:0;scale:.5}30%{opacity:1;scale:1.4}100%{opacity:0;scale:1.9;translate:0 -38px}}
+@keyframes nsAttackKick{50%{translate:12px -10px;scale:1.05}}
+@keyframes nsDragonRoar{50%{translate:-15px -12px;scale:1.1}}
+@media(max-width:650px){.ns-alien{width:53px;min-height:55px}.ns-alien span{font-size:27px}.ns-alien small{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.ns-alien{animation:nsAlienMarch 12s linear forwards}.ns-battle-burst{animation:none}}
 </style>
 </head>
 
@@ -483,22 +500,22 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 
 <section id="chaos">
   <h2>🌌 DIMENSION 420</h2>
-  <p class="muted">Rick, Morty and Balthromaw take an interdimensional break. Click Rick or Morty for a smoke-cloud surprise.</p>
+  <p class="muted">Rick, Morty and Balthromaw defend the dimension from waves of alien species! Click aliens or use the team attacks.</p>
   <div class="game-shell">
-    <div class="game-top"><strong>DIMENSION C-137 // CLOUD NINE</strong><div class="game-stats"><span>💨 Clouds: <b id="koCount">0</b>/2</span><span>🌫 VIBE: COSMIC</span></div></div>
+    <div class="game-top"><strong>DIMENSION C-137 // ALIEN SIEGE</strong><div class="game-stats"><span>👾 Aliens defeated: <b id="koCount">0</b></span><span>⚔️ TEAM BATTLE</span></div></div>
     <div class="arena" id="arena">
       <div class="portal-rift" id="portalRift" aria-hidden="true"><div class="portal-core"></div><div class="portal-sparks"></div></div><div class="moon"></div><div class="cloud"></div><div class="cloud c2"></div>
       <div class="lightning" id="lightning"></div>
       <svg class="bolt" id="bolt" viewBox="0 0 80 180" aria-hidden="true"><path d="M46 0 15 88 39 82 25 180 68 63 44 69Z" fill="#e7edff" stroke="#fff" stroke-width="3"/></svg>
       <div class="smoke-scene" aria-hidden="true"><span class="smoke-puff puff-a"></span><span class="smoke-puff puff-b"></span><span class="smoke-puff puff-c"></span><span class="smoke-puff puff-d"></span></div>
-      <div class="runner rick" id="rick" role="button" tabindex="0" aria-label="Click Rick to knock him out" onclick="knockout('rick')"><svg viewBox="0 0 150 250" aria-hidden="true"><defs><linearGradient id="rickcoat" x2=".8" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#b9d8d7"/></linearGradient></defs><g stroke="#31333c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <div class="runner rick" id="rick" role="button" tabindex="0" aria-label="Rick plasma blast" onclick="knockout('rick')"><svg viewBox="0 0 150 250" aria-hidden="true"><defs><linearGradient id="rickcoat" x2=".8" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#b9d8d7"/></linearGradient></defs><g stroke="#31333c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
 <path d="M48 172 45 221 62 223 73 180 84 223 103 221 97 168Z" fill="#735d46"/><path d="m43 216-6 16 29 1-2-15m19 0-1 15 29-1-9-16" fill="#25242b"/>
 <path d="M46 105Q30 105 27 123L14 159 29 169 48 139 42 185 108 185 104 136 123 161 136 151 115 113Q106 104 91 104Z" fill="url(#rickcoat)"/><path d="M61 110 74 135 89 109 92 178 57 178Z" fill="#92c3c2"/><path d="M53 110 74 134 61 148 43 118M94 110 75 135 91 149 105 118" fill="#f5ffff"/><path d="M42 179h65M50 155h17" stroke="#729998"/><path d="M11 159 9 172 26 180 31 166M123 157 130 173 141 166 135 150" fill="#d4d9c6"/>
 <path d="M54 72Q45 49 59 35Q76 22 94 38Q110 52 99 80L91 105 60 104Z" fill="#d8dfc8"/>
 <path d="M48 49 34 44 45 35 28 23 48 24 42 7 60 17 66 1 76 15 89 0 92 18 109 7 107 28 123 27 111 42 121 51 106 58 104 75 94 66 89 44 65 47 57 66Z" fill="#b9e8f2" stroke="#527b8b" stroke-width="3"/>
 <path d="M53 65Q59 58 70 64M82 63Q91 56 99 62" fill="none" stroke="#6e7774" stroke-width="4"/><ellipse cx="64" cy="73" rx="9" ry="11" fill="#f7f7e5"/><ellipse cx="91" cy="72" rx="9" ry="11" fill="#f7f7e5"/><circle cx="66" cy="75" r="2.4" fill="#25282b"/><circle cx="91" cy="74" r="2.4" fill="#25282b"/><path d="m78 70-3 13 7 2M65 94Q77 89 92 94" fill="none" stroke="#6d5f5b" stroke-width="2.3"/><path d="M65 95q8 8 18 0" fill="#66535a"/><path d="M71 98q4 7 8 2" fill="#a9d2d2" stroke="none"/><path d="m53 104 10 7 11 17 12-17 9-7" fill="none" stroke="#72999b" stroke-width="2"/>
 </g><g fill="none" stroke-linecap="round"><path d="M49 36 38 30M58 18 56 8M77 14 79 5M101 29 114 22" stroke="#d8f9ff" stroke-width="3"/><path d="M57 82q7-3 13 0m14-1q7-4 13 0" stroke="#b3b5a5" stroke-width="1.8"/><path d="M53 130 44 162M96 131l8 31" stroke="#93aeb0" stroke-width="1.7"/><path d="M54 160h15m23-6h10" stroke="#a5c2c2" stroke-width="1.5"/></g></svg><span class="character-label">RICK • CLICK ME</span></div>
-      <div class="runner morty" id="morty" role="button" tabindex="0" aria-label="Click Morty to knock him out" onclick="knockout('morty')"><svg viewBox="0 0 150 250" aria-hidden="true"><g stroke="#3a3030" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round">
+      <div class="runner morty" id="morty" role="button" tabindex="0" aria-label="Morty shockwave" onclick="knockout('morty')"><svg viewBox="0 0 150 250" aria-hidden="true"><g stroke="#3a3030" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round">
 <path d="M48 170 44 219 64 220 74 178 85 220 106 219 100 170Z" fill="#477eb4"/><path d="m43 216-5 16 29 1-1-14m19-2-1 16 29-1-9-16" fill="#f3f3e9"/>
 <path d="M50 111Q38 111 34 126L19 157 33 168 50 143 46 181 103 181 101 143 118 169 132 157 115 124Q110 112 98 111Z" fill="#f4d846"/><path d="m18 155-4 11 17 12 6-14m81 0 7 13 16-12-10-12" fill="#f0c6a7"/>
 <path d="M59 97 59 119 91 119 91 97" fill="#f2c9a6"/>
@@ -517,12 +534,13 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 <path d="M282 164q-7 15-12 29m24-35-9 32m20-44-7 31" fill="none" stroke="#d37a7c" stroke-width="7"/>
 <path d="M111 208Q73 204 47 183Q43 222 95 235" fill="#8b3347"/>
 </g><g stroke-linecap="round" stroke-linejoin="round"><path d="M169 177q32-22 66-13M158 189q39-20 77-10M173 205q36-10 65-3" fill="none" stroke="#d78b87" stroke-width="3" opacity=".65"/><path d="M321 131q13-7 21-5M375 176q24-4 41-19" fill="none" stroke="#df9191" stroke-width="3"/><path d="M343 77q10-9 20-7M388 90q9-3 16 3" fill="none" stroke="#e8a2a2" stroke-width="3"/><path d="M57 151 96 185 66 175M348 134 311 158 350 151" fill="none" stroke="#e28b8e" stroke-width="3" opacity=".75"/><circle cx="424" cy="131" r="2.2" fill="#ec9c9e"/><path d="M389 164q17 4 28-5" fill="none" stroke="#bb6671" stroke-width="2"/></g></svg></div>
+      <div class="ns-alien-horde" id="nsAlienHorde" aria-label="Alien invaders"></div><div class="ns-battle-fx" id="nsBattleFx" aria-hidden="true"></div>
       <div class="rain"></div>
     </div>
-    <div class="game-hint">🌧 Heavy rain is falling. ⚡ Lightning flashes across the sky. 🔥 Watch out for the dragon's fire!</div>
+    <div class="game-hint">👾 Tap aliens to blast them! Rick fires plasma, Morty sends shockwaves, and Balthromaw breathes dragon fire.</div>
   </div>
-  <div class="portal-controls"><button class="btn portal-trigger" onclick="openPortal()" id="portalButton">🌀 FIRE PORTAL GUN</button><span id="dimensionLabel" class="dimension-label">CURRENT DIMENSION: C-137</span></div><div class="game-actions"><button class="btn" onclick="resetGame()">↻ Reset session</button><button class="btn" onclick="toggleStorm()" id="stormBtn">⛈ Toggle storm</button></div>
-  <p class="game-message" id="gameMessage">Rick and Morty are chilling with Balthromaw. Click either character!</p>
+  <div class="portal-controls"><button class="btn portal-trigger" onclick="openPortal()" id="portalButton">🌀 FIRE PORTAL GUN</button><span id="dimensionLabel" class="dimension-label">CURRENT DIMENSION: C-137</span></div><div class="game-actions"><button class="btn" onclick="knockout('rick')">🔫 RICK: PLASMA</button><button class="btn" onclick="knockout('morty')">⚡ MORTY: SHOCKWAVE</button><button class="btn" onclick="nsDragonAttack()">🐉 DRAGON: FIRE</button><button class="btn" onclick="resetGame()">↻ Reset battle</button><button class="btn" onclick="toggleStorm()" id="stormBtn">⛈ Toggle storm</button></div>
+  <p class="game-message" id="gameMessage">Alien invasion incoming! Defend the dimension!</p>
 </section>
 
 <section id="lab">
@@ -750,21 +768,81 @@ function copyCommand(cmd) {
 
 
 // CHAOS RUN GAME
-let knockedOut = new Set();
-function knockout(name) {
-  if (knockedOut.has(name)) return;
-  knockedOut.add(name);
-  document.getElementById(name).classList.add('ko');
-  document.getElementById('koCount').textContent = knockedOut.size;
-  const message = document.getElementById('gameMessage');
-  message.textContent = knockedOut.size === 2 ? 'CLOUD NINE. The whole dimension disappeared into smoke!' : (name === 'rick' ? 'Rick just blew a massive smoke ring!' : 'Morty coughed and vanished into the smoke!');
+let nsBattleScore=0;
+let nsAlienSerial=0;
+const nsAlienSpecies=[
+ {face:'👽',kind:'ZORG',hp:1},{face:'👾',kind:'VOIDLING',hp:2},
+ {face:'🦠',kind:'SPORE BEAST',hp:1},{face:'🪼',kind:'NEBULA JELLY',hp:2},
+ {face:'🐙',kind:'TENTACLE',hp:3},{face:'🛸',kind:'SAUCER',hp:2}
+];
+function nsBattleMessage(message){document.getElementById('gameMessage').textContent=message;}
+function nsSpawnAlien(){
+ const horde=document.getElementById('nsAlienHorde');
+ if(!horde || horde.children.length>=12)return;
+ const species=nsAlienSpecies[Math.floor(Math.random()*nsAlienSpecies.length)];
+ const alien=document.createElement('button');
+ alien.type='button';alien.className='ns-alien';
+ alien.dataset.hp=String(species.hp);alien.dataset.kind=species.kind;
+ alien.style.setProperty('--alien-y',String(12+Math.random()*66)+'%');
+ alien.style.setProperty('--alien-delay',String(Math.random()*-.5)+'s');
+ alien.style.setProperty('--alien-speed',String(8+Math.random()*5)+'s');
+ alien.innerHTML='<span aria-hidden="true">'+species.face+'</span><small>'+species.kind+'</small>';
+ alien.setAttribute('aria-label','Attack '+species.kind);
+ alien.addEventListener('click',()=>nsHitAlien(alien,1,'🎯 Direct hit!'));
+ alien.addEventListener('animationend',e=>{if(e.animationName==='nsAlienMarch'&&alien.isConnected){alien.remove();nsBattleMessage('⚠️ An alien slipped past the defenders!')}})
+ horde.appendChild(alien);
 }
-function resetGame() {
-  knockedOut.clear();
-  ['rick','morty'].forEach(id => document.getElementById(id).classList.remove('ko'));
-  document.getElementById('koCount').textContent = '0';
-  document.getElementById('gameMessage').textContent = 'The session restarted. Click Rick or Morty!';
+function nsHitAlien(alien,damage,message){
+ if(!alien||!alien.isConnected)return;
+ const hp=Number(alien.dataset.hp)-damage;
+ alien.dataset.hp=String(hp);
+ alien.classList.remove('ns-alien-hit');void alien.offsetWidth;alien.classList.add('ns-alien-hit');
+ if(hp<=0){
+  const rect=alien.getBoundingClientRect(),arena=document.getElementById('arena').getBoundingClientRect();
+  nsBattleBurst(rect.left-arena.left+rect.width/2,rect.top-arena.top+rect.height/2,'💥');
+  alien.remove();nsBattleScore++;
+  document.getElementById('koCount').textContent=String(nsBattleScore);
+  if(nsBattleScore%10===0)nsBattleMessage('🏆 WAVE CLEARED! '+nsBattleScore+' aliens defeated! The team is unstoppable!');
+  else nsBattleMessage(message+' '+alien.dataset.kind+' defeated! Total: '+nsBattleScore);
+ }
 }
+function nsBattleBurst(x,y,emoji){
+ const fx=document.createElement('span');fx.className='ns-battle-burst';fx.textContent=emoji;
+ fx.style.left=x+'px';fx.style.top=y+'px';document.getElementById('nsBattleFx').appendChild(fx);
+ setTimeout(()=>fx.remove(),650);
+}
+function nsAttackTeam(who){
+ const horde=[...document.querySelectorAll('#nsAlienHorde .ns-alien')];
+ const targetCount=who==='rick'?2:3;
+ const damage=who==='rick'?2:1;
+ const chosen=horde.slice(-targetCount);
+ const runner=document.getElementById(who);
+ runner.classList.remove('ns-attacking');void runner.offsetWidth;runner.classList.add('ns-attacking');
+ setTimeout(()=>runner.classList.remove('ns-attacking'),550);
+ if(!chosen.length){nsSpawnAlien();nsBattleMessage((who==='rick'?'Rick charged his plasma gun!':'Morty activated his shockwave!')+' New enemies incoming!');return;}
+ chosen.forEach(a=>nsHitAlien(a,damage,who==='rick'?'🔫 Rick blasted a':'⚡ Morty shocked a'));
+ nsBattleBurst(who==='rick'?155:290,210,who==='rick'?'💚':'⚡');
+}
+function knockout(name){nsAttackTeam(name);}
+function nsDragonAttack(){
+ const dragon=document.querySelector('#arena .dragon');
+ dragon.classList.remove('ns-dragon-roar');void dragon.offsetWidth;dragon.classList.add('ns-dragon-roar');
+ setTimeout(()=>dragon.classList.remove('ns-dragon-roar'),800);
+ const targets=[...document.querySelectorAll('#nsAlienHorde .ns-alien')];
+ if(!targets.length){nsSpawnAlien();nsBattleMessage('🐉 Balthromaw roars! More invaders are approaching!');return;}
+ targets.forEach(a=>nsHitAlien(a,5,'🔥 Balthromaw incinerated a'));
+ nsBattleBurst(document.getElementById('arena').clientWidth*.72,145,'🔥');
+}
+function resetGame(){
+ nsBattleScore=0;document.getElementById('koCount').textContent='0';
+ document.getElementById('nsAlienHorde').replaceChildren();
+ document.getElementById('nsBattleFx').replaceChildren();
+ for(let i=0;i<5;i++)nsSpawnAlien();
+ nsBattleMessage('⚔️ New alien wave! Rick, Morty and Balthromaw are ready!');
+}
+setInterval(()=>{if(document.getElementById('chaos').classList.contains('active'))nsSpawnAlien()},1800);
+setInterval(()=>{if(document.getElementById('chaos').classList.contains('active')&&document.querySelector('#nsAlienHorde .ns-alien'))nsDragonAttack()},11000);
+setTimeout(()=>{for(let i=0;i<5;i++)nsSpawnAlien()},500);
 function toggleStorm() {
   const rain = document.querySelector('.rain');
   rain.style.display = rain.style.display === 'none' ? 'block' : 'none';
