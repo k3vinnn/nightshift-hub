@@ -1271,35 +1271,37 @@ function nsBotAsk(q){nsBotLine('user',q);nsBotLine('assistant',nsBotAnswer(q))}
 function nsBotSend(){const input=document.getElementById('nsBotInput');const q=input.value.trim();if(!q)return;input.value='';nsBotAsk(q)}
 
 
-/* NIGHTSHIFT CINEMA — independent catalog; no changes to other sections */
+
+/* NIGHTSHIFT CINEMA: verified sources and honest viewing labels */
 const nsCinemaLibrary=[
- {title:"Night of the Living Dead",year:"1968",genre:["Horror","Suspense"],kind:"Movie",emoji:"🧟",description:"Survivors barricade themselves inside a farmhouse during a zombie outbreak.",archive:"night_of_the_living_dead"},
- {title:"Nosferatu",year:"1922",genre:["Horror","Suspense"],kind:"Movie",emoji:"🦇",description:"A silent vampire horror classic.",archive:"Nosferatu1922"},
- {title:"The Last Man on Earth",year:"1964",genre:["Horror","Sci-Fi","Suspense"],kind:"Movie",emoji:"🌒",description:"A scientist survives a worldwide plague.",archive:"TheLastManOnEarth1964"},
- {title:"The Brain That Wouldn't Die",year:"1962",genre:["Sci-Fi","Horror"],kind:"Movie",emoji:"🧠",description:"A cult science-fiction horror feature.",archive:"TheBrainThatWouldntDie"},
- {title:"The Little Shop of Horrors",year:"1960",genre:["Comedy","Horror"],kind:"Movie",emoji:"🪴",description:"A strange plant brings chaos to a flower shop.",archive:"TheLittleShopOfHorrors1960"},
- {title:"Charade",year:"1963",genre:["Suspense","Comedy","Action"],kind:"Movie",emoji:"🕵️",description:"A mystery-romance thriller with shifting identities.",archive:"Charade1963"},
- {title:"The General",year:"1926",genre:["Comedy","Action"],kind:"Movie",emoji:"🚂",description:"Buster Keaton's silent action-comedy about a locomotive engineer.",archive:"TheGeneral1926"},
- {title:"Plan 9 from Outer Space",year:"1957",genre:["Sci-Fi","Horror"],kind:"Movie",emoji:"🛸",description:"A cult alien-invasion science-fiction film.",archive:"Plan9FromOuterSpace"},
- {title:"Classic TV: The Beverly Hillbillies",year:"1960s",genre:["Comedy"],kind:"Series",emoji:"📺",description:"Sample early episodes of a vintage sitcom. Individual episode availability varies.",episodes:[{title:"Pilot — The Clampetts Strike Oil",archive:"TheBeverlyHillbilliesPilotEpisode"},{title:"Early episode collection",archive:"TheBeverlyHillbillies"}]},
- {title:"Classic TV: The Adventures of Ozzie and Harriet",year:"1950s",genre:["Comedy"],kind:"Series",emoji:"🎞️",description:"Vintage family sitcom selections; not a complete season archive.",episodes:[{title:"Classic episode collection",archive:"TheAdventuresOfOzzieAndHarriet"}]}
+ {title:"Night of the Living Dead",year:"1968",genre:["Horror","Sci-Fi","Suspense"],kind:"Movie",emoji:"🧟",description:"Full-length public-domain zombie classic.",archive:"Night.Of.The.Living.Dead_1080p",availability:"Free full movie"},
+ {title:"SpongeBob SquarePants",year:"1999–",genre:["Comedy"],kind:"Series",emoji:"🧽",description:"Four-hour official SpongeBob compilation. Full seasons require an authorized provider.",youtube:"xRfwXBitjc8",source:"https://www.youtube.com/watch?v=xRfwXBitjc8",availability:"Official free compilation",more:"https://www.paramountplus.com/shows/spongebob-squarepants/"},
+ {title:"Rick and Morty",year:"2013–",genre:["Sci-Fi","Comedy","Action"],kind:"Series",emoji:"🛸",description:"Adult Swim's official series page offers a marathon and selected episodes; availability varies.",source:"https://www.adultswim.com/rick-and-morty",availability:"Official streaming page"},
+ {title:"Gravity Falls",year:"2012–2016",genre:["Comedy","Suspense","Sci-Fi"],kind:"Series",emoji:"🌲",description:"Watch full episodes through Disney+; subscription may be required.",source:"https://www.disneyplus.com/browse/entity-9995dda1-d70a-4d15-98ba-72f1d10fa406",availability:"Official full episodes (subscription may be required)"},
+ {title:"Regular Show",year:"2010–2017",genre:["Comedy","Sci-Fi","Action"],kind:"Series",emoji:"🦝",description:"Find licensed streaming providers for Mordecai and Rigby's adventures.",source:"https://www.justwatch.com/us/tv-show/regular-show",availability:"Find licensed streaming"}
 ];
-let nsCinemaGenre="All",nsCinemaSelected=null;
+let nsCinemaGenre="All";
 function nsCinemaRender(){
- const genres=["All","Horror","Sci-Fi","Comedy","Suspense","Action"];
- document.getElementById("nsCinemaFilters").innerHTML=genres.map(g=>'<button class="ns-cinema-filter'+(nsCinemaGenre===g?' selected':'')+'" onclick="nsCinemaSetGenre(\''+g+'\')">'+g+'</button>').join("");
- const query=document.getElementById("nsCinemaSearch").value.toLowerCase().trim();
- const matches=nsCinemaLibrary.map((item,index)=>({...item,index})).filter(item=>(nsCinemaGenre==="All"||item.genre.includes(nsCinemaGenre))&&[item.title,item.description,item.kind,...item.genre].join(" ").toLowerCase().includes(query));
- const container=document.getElementById("nsCinemaCatalog");container.replaceChildren();
- if(!matches.length){container.innerHTML='<p class="ns-cinema-empty">No matching titles yet. Try another genre or search.</p>';return}
- for(const item of matches){const tile=document.createElement("button");tile.className="ns-cinema-tile";tile.type="button";tile.innerHTML='<div class="ns-cinema-art" aria-hidden="true">'+item.emoji+'</div><div class="ns-cinema-info"><strong></strong><small></small></div>';tile.querySelector("strong").textContent=item.title;tile.querySelector("small").textContent=item.year+" · "+item.kind+" · "+item.genre.join(" / ");tile.onclick=()=>nsCinemaOpen(item.index);container.append(tile)}
+ const filters=document.getElementById("nsCinemaFilters");filters.replaceChildren();
+ for(const g of ["All","Horror","Sci-Fi","Comedy","Suspense","Action"]){const btn=document.createElement("button");btn.className="ns-cinema-filter"+(nsCinemaGenre===g?" selected":"");btn.textContent=g;btn.onclick=()=>{nsCinemaGenre=g;nsCinemaRender()};filters.append(btn)}
+ const q=document.getElementById("nsCinemaSearch").value.toLowerCase().trim(),container=document.getElementById("nsCinemaCatalog");container.replaceChildren();
+ const items=nsCinemaLibrary.map((x,i)=>({...x,index:i})).filter(x=>(nsCinemaGenre==="All"||x.genre.includes(nsCinemaGenre))&&[x.title,x.description,x.kind,...x.genre].join(" ").toLowerCase().includes(q));
+ if(!items.length){const p=document.createElement("p");p.textContent="No titles match. Try another genre.";container.append(p)}
+ for(const x of items){const tile=document.createElement("button");tile.className="ns-cinema-tile";tile.type="button";tile.innerHTML='<div class="ns-cinema-art"></div><div class="ns-cinema-info"><strong></strong><small></small><small style="margin-top:8px;color:#d2b6ff"></small></div>';tile.querySelector(".ns-cinema-art").textContent=x.emoji;tile.querySelector("strong").textContent=x.title;const labels=tile.querySelectorAll("small");labels[0].textContent=x.year+" · "+x.kind+" · "+x.genre.join(" / ");labels[1].textContent=x.availability;tile.onclick=()=>nsCinemaOpen(x.index);container.append(tile)}
 }
-function nsCinemaSetGenre(genre){nsCinemaGenre=genre;nsCinemaRender()}
-function nsCinemaOpen(index){nsCinemaSelected=index;const item=nsCinemaLibrary[index];const panel=document.getElementById("nsCinemaWatch");panel.hidden=false;document.getElementById("nsCinemaTitle").textContent=item.title;document.getElementById("nsCinemaDescription").textContent=item.description;const eps=document.getElementById("nsCinemaEpisodes");eps.replaceChildren();if(item.episodes){item.episodes.forEach((ep,i)=>{const btn=document.createElement("button");btn.textContent="Episode "+(i+1)+": "+ep.title;btn.onclick=()=>nsCinemaPlay(ep.archive,btn);eps.append(btn)});nsCinemaPlay(item.episodes[0].archive,eps.firstElementChild)}else nsCinemaPlay(item.archive);panel.scrollIntoView({behavior:"smooth",block:"start"})}
-function nsCinemaPlay(archive,button){const id=encodeURIComponent(archive);const frame=document.getElementById("nsCinemaFrame");frame.src="https://archive.org/embed/"+id;document.getElementById("nsCinemaSource").href="https://archive.org/details/"+id;document.querySelectorAll("#nsCinemaEpisodes button").forEach(b=>b.classList.toggle("selected",b===button))}
+function nsCinemaSetGenre(g){nsCinemaGenre=g;nsCinemaRender()}
+function nsCinemaOpen(index){
+ const x=nsCinemaLibrary[index],panel=document.getElementById("nsCinemaWatch"),frame=document.getElementById("nsCinemaFrame"),extra=document.getElementById("nsCinemaEpisodes");
+ panel.hidden=false;document.getElementById("nsCinemaTitle").textContent=x.title;document.getElementById("nsCinemaDescription").textContent=x.description+" — "+x.availability;
+ extra.replaceChildren();frame.removeAttribute("src");frame.style.display="none";
+ const link=document.getElementById("nsCinemaSource");link.href=x.source||"https://archive.org/details/"+encodeURIComponent(x.archive);link.textContent=x.archive?"Open Internet Archive source":x.youtube?"Open official YouTube video":"Open official viewing page";
+ if(x.youtube||x.archive){frame.style.display="block";frame.src=x.youtube?"https://www.youtube-nocookie.com/embed/"+x.youtube:"https://archive.org/embed/"+encodeURIComponent(x.archive)}
+ if(x.more){const more=document.createElement("a");more.href=x.more;more.target="_blank";more.rel="noopener noreferrer";more.className="btn";more.textContent="Full episode catalog (official)";extra.append(more)}
+ if(!x.youtube&&!x.archive){const p=document.createElement("p");p.className="ns-cinema-note";p.textContent="No verified free embedded full-episode source for this show. Use the viewing link below. Some episodes require a subscription.";extra.append(p)}
+ panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
 function nsCinemaClose(){document.getElementById("nsCinemaFrame").removeAttribute("src");document.getElementById("nsCinemaWatch").hidden=true}
 nsCinemaRender();
-
 // NOTES
 const notes = document.getElementById('notesText');
 notes.value = localStorage.getItem('nightshift-notes') || '';
