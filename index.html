@@ -405,6 +405,9 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 .ns-boss{width:120px;min-height:118px;background:radial-gradient(circle,#a81f59,#260923);box-shadow:0 0 30px #ff255d,0 0 0 3px #ff9b52;z-index:7}
 .ns-boss span{font-size:70px}.ns-boss small{font-size:10px}
 @media(max-width:650px){.ns-boss{width:95px;min-height:100px}.ns-boss span{font-size:55px}}
+
+/* NIGHTSHIFT CINEMA — isolated from existing hub features */
+.ns-cinema-intro{color:#c7bfd5;line-height:1.6}.ns-cinema-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0}.ns-cinema-controls input{flex:1;min-width:180px;max-width:360px;margin:0}.ns-cinema-filter{border:1px solid #5b477a;background:#1c172c;color:#eeeafa;border-radius:20px;padding:9px 14px;cursor:pointer}.ns-cinema-filter.selected{background:#8051c7}.ns-cinema-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:16px}.ns-cinema-tile{background:rgba(17,14,29,.94);border:1px solid #5b477a;border-radius:14px;overflow:hidden;cursor:pointer;color:#eeeafa;text-align:left;padding:0;transition:transform .18s,border-color .18s}.ns-cinema-tile:hover{transform:translateY(-3px);border-color:#bd9bff}.ns-cinema-art{height:135px;display:grid;place-items:center;font-size:54px;background:radial-gradient(circle at 70% 20%,#67439c,#21172f 70%)}.ns-cinema-info{padding:13px}.ns-cinema-info strong{display:block;margin-bottom:8px}.ns-cinema-info small{display:block;line-height:1.5}.ns-cinema-watch{margin:15px 0 20px}.ns-cinema-watch[hidden]{display:none}.ns-cinema-frame{width:100%;aspect-ratio:16/9;border:1px solid #5b477a;border-radius:12px;background:#08080e}.ns-cinema-episodes{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.ns-cinema-episodes button{background:#251d38;color:#eeeafa;border:1px solid #735b9a;padding:8px 12px;border-radius:8px;cursor:pointer}.ns-cinema-episodes button.selected{background:#8051c7}.ns-cinema-note{font-size:13px;color:#bfb3d1;line-height:1.6}.ns-cinema-empty{padding:25px;color:#c7bfd5}
 </style>
 </head>
 
@@ -419,6 +422,7 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
   <button id="effectsBtn" onclick="toggleEffects()" title="Turn background animations on or off">✨ Effects: ON</button>
   <button class="active" onclick="show('home',this)">Dashboard</button>
   <button onclick="show('gaming',this)">Gaming</button>
+  <button onclick="show('cinema',this)">🎬 Cinema</button>
   <button onclick="show('chaos',this)">⚡ Chaos Run</button>
   <button onclick="show('lab',this)">Tech Lab</button>
   <button onclick="show('commands',this)">Commands</button>
@@ -634,6 +638,25 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 <div class="ns-bot-chips"><button onclick="nsBotAsk('How do I earn XP?')">Earn XP</button><button onclick="nsBotAsk('How do I use the portal?')">Portal</button><button onclick="nsBotAsk('Open the arcade')">Arcade</button></div>
 <form class="ns-bot-form" onsubmit="event.preventDefault();nsBotSend()"><input id="nsBotInput" aria-label="Ask SHIFT BOT" placeholder="Ask SHIFT BOT..." maxlength="300"><button type="submit">➤</button></form></div></div>
 
+
+<section id="cinema">
+ <h2>🎬 NIGHTSHIFT CINEMA</h2>
+ <p class="ns-cinema-intro">Your free movie &amp; TV lounge. Watch classic films and authorized public-domain or freely licensed videos right here. Newer copyrighted shows such as <em>Regular Show</em> aren't included without streaming rights.</p>
+ <div class="card">
+  <strong>🍿 Browse the collection</strong>
+  <div class="ns-cinema-controls"><input id="nsCinemaSearch" type="search" placeholder="Search titles, genres or descriptions…" oninput="nsCinemaRender()" aria-label="Search movies and shows"><div id="nsCinemaFilters" style="display:flex;gap:7px;flex-wrap:wrap"></div></div>
+  <p class="ns-cinema-note">Videos are streamed from third-party hosts, not stored on GitHub. Playback and availability depend on the source. Some classics may have different copyright status outside the United States.</p>
+ </div>
+ <div id="nsCinemaWatch" class="card ns-cinema-watch" hidden>
+  <button class="btn" onclick="nsCinemaClose()">← Back to catalog</button>
+  <h3 id="nsCinemaTitle"></h3>
+  <p id="nsCinemaDescription" class="ns-cinema-note"></p>
+  <div id="nsCinemaEpisodes" class="ns-cinema-episodes"></div>
+  <iframe id="nsCinemaFrame" class="ns-cinema-frame" title="NIGHTSHIFT Cinema video player" loading="lazy" referrerpolicy="no-referrer" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  <p class="ns-cinema-note">Player not loading? <a id="nsCinemaSource" href="https://archive.org/details/movies" target="_blank" rel="noopener noreferrer">Open the original source</a>. Only play or share content you're authorized to access.</p>
+ </div>
+ <div id="nsCinemaCatalog" class="ns-cinema-grid"></div>
+</section>
 </main>
 
 <footer>NIGHTSHIFT HUB · Built for learning, gaming and creating.</footer>
@@ -1246,6 +1269,36 @@ function nsBotAnswer(question){
 }
 function nsBotAsk(q){nsBotLine('user',q);nsBotLine('assistant',nsBotAnswer(q))}
 function nsBotSend(){const input=document.getElementById('nsBotInput');const q=input.value.trim();if(!q)return;input.value='';nsBotAsk(q)}
+
+
+/* NIGHTSHIFT CINEMA — independent catalog; no changes to other sections */
+const nsCinemaLibrary=[
+ {title:"Night of the Living Dead",year:"1968",genre:["Horror","Suspense"],kind:"Movie",emoji:"🧟",description:"Survivors barricade themselves inside a farmhouse during a zombie outbreak.",archive:"night_of_the_living_dead"},
+ {title:"Nosferatu",year:"1922",genre:["Horror","Suspense"],kind:"Movie",emoji:"🦇",description:"A silent vampire horror classic.",archive:"Nosferatu1922"},
+ {title:"The Last Man on Earth",year:"1964",genre:["Horror","Sci-Fi","Suspense"],kind:"Movie",emoji:"🌒",description:"A scientist survives a worldwide plague.",archive:"TheLastManOnEarth1964"},
+ {title:"The Brain That Wouldn't Die",year:"1962",genre:["Sci-Fi","Horror"],kind:"Movie",emoji:"🧠",description:"A cult science-fiction horror feature.",archive:"TheBrainThatWouldntDie"},
+ {title:"The Little Shop of Horrors",year:"1960",genre:["Comedy","Horror"],kind:"Movie",emoji:"🪴",description:"A strange plant brings chaos to a flower shop.",archive:"TheLittleShopOfHorrors1960"},
+ {title:"Charade",year:"1963",genre:["Suspense","Comedy","Action"],kind:"Movie",emoji:"🕵️",description:"A mystery-romance thriller with shifting identities.",archive:"Charade1963"},
+ {title:"The General",year:"1926",genre:["Comedy","Action"],kind:"Movie",emoji:"🚂",description:"Buster Keaton's silent action-comedy about a locomotive engineer.",archive:"TheGeneral1926"},
+ {title:"Plan 9 from Outer Space",year:"1957",genre:["Sci-Fi","Horror"],kind:"Movie",emoji:"🛸",description:"A cult alien-invasion science-fiction film.",archive:"Plan9FromOuterSpace"},
+ {title:"Classic TV: The Beverly Hillbillies",year:"1960s",genre:["Comedy"],kind:"Series",emoji:"📺",description:"Sample early episodes of a vintage sitcom. Individual episode availability varies.",episodes:[{title:"Pilot — The Clampetts Strike Oil",archive:"TheBeverlyHillbilliesPilotEpisode"},{title:"Early episode collection",archive:"TheBeverlyHillbillies"}]},
+ {title:"Classic TV: The Adventures of Ozzie and Harriet",year:"1950s",genre:["Comedy"],kind:"Series",emoji:"🎞️",description:"Vintage family sitcom selections; not a complete season archive.",episodes:[{title:"Classic episode collection",archive:"TheAdventuresOfOzzieAndHarriet"}]}
+];
+let nsCinemaGenre="All",nsCinemaSelected=null;
+function nsCinemaRender(){
+ const genres=["All","Horror","Sci-Fi","Comedy","Suspense","Action"];
+ document.getElementById("nsCinemaFilters").innerHTML=genres.map(g=>'<button class="ns-cinema-filter'+(nsCinemaGenre===g?' selected':'')+'" onclick="nsCinemaSetGenre(\''+g+'\')">'+g+'</button>').join("");
+ const query=document.getElementById("nsCinemaSearch").value.toLowerCase().trim();
+ const matches=nsCinemaLibrary.map((item,index)=>({...item,index})).filter(item=>(nsCinemaGenre==="All"||item.genre.includes(nsCinemaGenre))&&[item.title,item.description,item.kind,...item.genre].join(" ").toLowerCase().includes(query));
+ const container=document.getElementById("nsCinemaCatalog");container.replaceChildren();
+ if(!matches.length){container.innerHTML='<p class="ns-cinema-empty">No matching titles yet. Try another genre or search.</p>';return}
+ for(const item of matches){const tile=document.createElement("button");tile.className="ns-cinema-tile";tile.type="button";tile.innerHTML='<div class="ns-cinema-art" aria-hidden="true">'+item.emoji+'</div><div class="ns-cinema-info"><strong></strong><small></small></div>';tile.querySelector("strong").textContent=item.title;tile.querySelector("small").textContent=item.year+" · "+item.kind+" · "+item.genre.join(" / ");tile.onclick=()=>nsCinemaOpen(item.index);container.append(tile)}
+}
+function nsCinemaSetGenre(genre){nsCinemaGenre=genre;nsCinemaRender()}
+function nsCinemaOpen(index){nsCinemaSelected=index;const item=nsCinemaLibrary[index];const panel=document.getElementById("nsCinemaWatch");panel.hidden=false;document.getElementById("nsCinemaTitle").textContent=item.title;document.getElementById("nsCinemaDescription").textContent=item.description;const eps=document.getElementById("nsCinemaEpisodes");eps.replaceChildren();if(item.episodes){item.episodes.forEach((ep,i)=>{const btn=document.createElement("button");btn.textContent="Episode "+(i+1)+": "+ep.title;btn.onclick=()=>nsCinemaPlay(ep.archive,btn);eps.append(btn)});nsCinemaPlay(item.episodes[0].archive,eps.firstElementChild)}else nsCinemaPlay(item.archive);panel.scrollIntoView({behavior:"smooth",block:"start"})}
+function nsCinemaPlay(archive,button){const id=encodeURIComponent(archive);const frame=document.getElementById("nsCinemaFrame");frame.src="https://archive.org/embed/"+id;document.getElementById("nsCinemaSource").href="https://archive.org/details/"+id;document.querySelectorAll("#nsCinemaEpisodes button").forEach(b=>b.classList.toggle("selected",b===button))}
+function nsCinemaClose(){document.getElementById("nsCinemaFrame").removeAttribute("src");document.getElementById("nsCinemaWatch").hidden=true}
+nsCinemaRender();
 
 // NOTES
 const notes = document.getElementById('notesText');
