@@ -5,181 +5,474 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NIGHTSHIFT HUB</title>
+
 <style>
-:root{--bg:#09090f;--panel:#14141f;--purple:#a879ff;--text:#eeeafa;--muted:#9994aa}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-header{padding:25px 7%;border-bottom:1px solid #292438;background:#10101a}
-header h1{margin:0;color:var(--purple);letter-spacing:4px}
-header p{color:var(--muted)}
-nav{display:flex;gap:9px;flex-wrap:wrap;padding:15px 7%;background:#10101a}
-nav button,.btn{background:#211b30;color:white;border:1px solid #403354;padding:11px 15px;border-radius:9px;cursor:pointer}
-nav button.active,nav button:hover,.btn:hover{background:#8051c7}
-main{max-width:1100px;margin:auto;padding:25px}
-section{display:none}
-section.active{display:block}
-h2{color:var(--purple)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.card{background:var(--panel);border:1px solid #292438;border-radius:14px;padding:20px;margin-bottom:15px}
-.big{font-size:32px;font-weight:bold}
-small,.muted{color:var(--muted)}
-input,textarea{width:100%;background:#0c0c14;color:white;border:1px solid #403354;border-radius:8px;padding:12px;margin:8px 0}
-textarea{min-height:190px;resize:vertical}
-a{color:#c6a6ff}
-li{margin:10px 0}
-.task{display:block;margin:12px 0}
-.task input{width:auto}
-footer{text-align:center;padding:30px;color:var(--muted)}
+:root {
+  --bg: #09090f;
+  --panel: rgba(15, 13, 25, 0.88);
+  --purple: #b58aff;
+  --text: #eeeafa;
+  --muted: #aaa1bd;
+  --border: rgba(181,138,255,0.25);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(rgba(5,5,12,0.78), rgba(5,5,12,0.91)),
+    url("13559.png") center center / cover fixed no-repeat;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  padding: 25px 7%;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,9,17,0.85);
+  backdrop-filter: blur(12px);
+}
+
+header h1 {
+  margin: 0;
+  color: var(--purple);
+  letter-spacing: 4px;
+  text-shadow: 0 0 18px rgba(181,138,255,0.4);
+}
+
+header p { color: var(--muted); }
+
+nav {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  padding: 15px 7%;
+  background: rgba(10,9,17,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+nav button, .btn {
+  background: #211b30;
+  color: white;
+  border: 1px solid #51406d;
+  padding: 11px 15px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+nav button:hover, nav button.active, .btn:hover {
+  background: #8051c7;
+  box-shadow: 0 0 15px rgba(181,138,255,0.25);
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px;
+}
+
+section { display: none; }
+section.active { display: block; }
+
+h2 { color: var(--purple); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 15px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 15px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.big { font-size: 32px; font-weight: bold; }
+small, .muted { color: var(--muted); }
+
+input, textarea {
+  width: 100%;
+  background: #0c0c14;
+  color: white;
+  border: 1px solid #51406d;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+textarea { min-height: 190px; resize: vertical; }
+
+a { color: #c6a6ff; }
+li { margin: 10px 0; }
+
+.task { display: block; margin: 12px 0; }
+.task input { width: auto; }
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  width: 105px;
+  height: 105px;
+  border-radius: 18px;
+  border: 2px solid var(--purple);
+  object-fit: cover;
+  background: #211b30;
+  box-shadow: 0 0 20px rgba(181,138,255,0.25);
+}
+
+.status-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  background: #70e69b;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.command {
+  overflow-wrap: anywhere;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: var(--muted);
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>✦ NIGHTSHIFT HUB</h1>
-<p>Your personal tech, gaming and productivity headquarters.</p>
+  <h1>✦ NIGHTSHIFT HUB</h1>
+  <p>Your personal tech, gaming and productivity headquarters.</p>
 </header>
 
 <nav>
-<button class="active" onclick="show('home',this)">Dashboard</button>
-<button onclick="show('gaming',this)">Gaming</button>
-<button onclick="show('lab',this)">Tech Lab</button>
-<button onclick="show('commands',this)">Commands</button>
-<button onclick="show('notes',this)">Notes</button>
+  <button class="active" onclick="show('home',this)">Dashboard</button>
+  <button onclick="show('gaming',this)">Gaming</button>
+  <button onclick="show('lab',this)">Tech Lab</button>
+  <button onclick="show('commands',this)">Commands</button>
+  <button onclick="show('notes',this)">Notes</button>
 </nav>
 
 <main>
+
 <section id="home" class="active">
-<h2>Welcome to NIGHTSHIFT.</h2>
-<div class="grid">
-<div class="card"><small>LOCAL TIME</small><div class="big" id="clock">--:--:--</div><small id="date"></small></div>
-<div class="card"><small>YOUR HUB</small><div class="big">ONLINE</div><small>Your personal control center.</small></div>
-</div>
-<div class="card">
-<h2>Daily Checklist</h2>
-<label class="task"><input type="checkbox" class="check"> Learn something new</label>
-<label class="task"><input type="checkbox" class="check"> Practice a tech command</label>
-<label class="task"><input type="checkbox" class="check"> Organize my computer</label>
-<label class="task"><input type="checkbox" class="check"> Take a break</label>
-<button class="btn" onclick="resetChecks()">Reset checklist</button>
-</div>
-<div class="card">
-<h2>Quick links</h2>
-<p><a href="https://www.google.com" target="_blank">Google</a></p>
-<p><a href="https://www.youtube.com" target="_blank">YouTube</a></p>
-<p><a href="https://www.roblox.com" target="_blank">Roblox</a></p>
-<p><a href="https://github.com" target="_blank">GitHub</a></p>
-</div>
+  <h2>Welcome to NIGHTSHIFT.</h2>
+
+  <div class="grid">
+    <div class="card">
+      <small>LOCAL TIME</small>
+      <div class="big" id="clock">--:--:--</div>
+      <small id="date"></small>
+    </div>
+
+    <div class="card">
+      <small>YOUR HUB</small>
+      <div class="big">ONLINE</div>
+      <small>Your personal control center.</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Roblox Profile</h2>
+    <div class="profile">
+      <img id="robloxAvatar" class="avatar" alt="Roblox avatar"
+           src="https://www.roblox.com/favicon.ico">
+      <div>
+        <h3 id="robloxUsername">sk8kevin</h3>
+        <p class="muted"><span class="status-dot"></span>Avatar checker active</p>
+        <small id="avatarStatus">Loading Roblox profile...</small>
+        <p><a href="https://www.roblox.com/users/profile" target="_blank">Open Roblox ↗</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Daily Checklist</h2>
+    <label class="task"><input type="checkbox" class="check"> Learn something new</label>
+    <label class="task"><input type="checkbox" class="check"> Practice a tech command</label>
+    <label class="task"><input type="checkbox" class="check"> Organize my computer</label>
+    <label class="task"><input type="checkbox" class="check"> Take a break</label>
+    <button class="btn" onclick="resetChecks()">Reset checklist</button>
+  </div>
+
+  <div class="card">
+    <h2>Quick Links</h2>
+    <p><a href="https://www.google.com" target="_blank">Google ↗</a></p>
+    <p><a href="https://www.youtube.com" target="_blank">YouTube ↗</a></p>
+    <p><a href="https://www.roblox.com" target="_blank">Roblox ↗</a></p>
+    <p><a href="https://github.com" target="_blank">GitHub ↗</a></p>
+  </div>
 </section>
 
 <section id="gaming">
-<h2>Gaming Center</h2>
-<div class="grid">
-<div class="card"><h3>Roblox</h3><p>Open the official Roblox website.</p><a href="https://www.roblox.com" target="_blank">Visit Roblox ↗</a></div>
-<div class="card"><h3>Performance tips</h3><ul><li>Close unnecessary background apps.</li><li>Keep your graphics drivers updated.</li><li>Use a stable internet connection.</li><li>Check Task Manager for high resource usage.</li></ul></div>
-<div class="card"><h3>Account safety</h3><ul><li>Never share your password.</li><li>Never download random executors.</li><li>Enable two-step verification.</li><li>Check trade values before accepting.</li></ul></div>
-</div>
+  <h2>Gaming Center</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Roblox</h3>
+      <p>Open the official Roblox website.</p>
+      <a href="https://www.roblox.com" target="_blank">Visit Roblox ↗</a>
+    </div>
+
+    <div class="card">
+      <h3>Performance Tips</h3>
+      <ul>
+        <li>Close unnecessary background apps.</li>
+        <li>Keep your graphics drivers updated.</li>
+        <li>Use a stable internet connection.</li>
+        <li>Check Task Manager for high resource usage.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Account Safety</h3>
+      <ul>
+        <li>Never share your password.</li>
+        <li>Never download random executors.</li>
+        <li>Enable two-step verification.</li>
+        <li>Check trade values before accepting.</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <section id="lab">
-<h2>Tech Lab</h2>
-<p class="muted">Beginner missions. Try these in Windows Terminal.</p>
-<div class="card"><h3>MISSION 001 — Know your PC</h3><code>hostname</code><p>Shows your computer's device name.</p></div>
-<div class="card"><h3>MISSION 002 — Check your network</h3><code>ipconfig</code><p>Displays your network configuration. Don't post private network details publicly.</p></div>
-<div class="card"><h3>MISSION 003 — Test your connection</h3><code>ping google.com</code><p>Tests whether your computer can reach Google's servers.</p></div>
-<div class="card"><h3>MISSION 004 — Find your Windows version</h3><code>winver</code><p>Opens your Windows version information.</p></div>
-<div class="card"><h3>MISSION 005 — Inspect running programs</h3><code>Get-Process</code><p>Lists running processes in PowerShell.</p></div>
+  <h2>Tech Lab</h2>
+  <p class="muted">Beginner missions. Try these in Windows Terminal.</p>
+
+  <div class="card">
+    <h3>MISSION 001 — Know Your PC</h3>
+    <code>hostname</code>
+    <p>Shows your computer's device name.</p>
+  </div>
+
+  <div class="card">
+    <h3>MISSION 002 — Check Your Network</h3>
+    <code>ipconfig</code>
+    <p>Displays your network configuration. Don't post private network details publicly.</p>
+  </div>
+
+  <div class="card">
+    <h3>MISSION 003 — Test Your Connection</h3>
+    <code>ping google.com</code>
+    <p>Tests whether your computer can reach Google's servers.</p>
+  </div>
+
+  <div class="card">
+    <h3>MISSION 004 — Find Your Windows Version</h3>
+    <code>winver</code>
+    <p>Opens your Windows version information.</p>
+  </div>
+
+  <div class="card">
+    <h3>MISSION 005 — Inspect Running Programs</h3>
+    <code>Get-Process</code>
+    <p>Lists running processes in PowerShell.</p>
+  </div>
 </section>
 
 <section id="commands">
-<h2>Command Library</h2>
-<p class="muted">Search commands and copy them into your terminal.</p>
-<input id="search" placeholder="Search commands..." oninput="filterCommands()">
-<div id="commandList"></div>
+  <h2>Command Library</h2>
+  <p class="muted">Search commands and copy them into your terminal.</p>
+  <input id="search" placeholder="Search commands..." oninput="filterCommands()">
+  <div id="commandList"></div>
 </section>
 
 <section id="notes">
-<h2>Personal Notes</h2>
-<div class="card">
-<p class="muted">Notes save automatically in this browser on this device. They are not shared with other visitors.</p>
-<textarea id="notesText" placeholder="Write your ideas, missions, reminders..."></textarea>
-<button class="btn" onclick="downloadNotes()">Download notes backup</button>
-<button class="btn" onclick="clearNotes()">Clear notes</button>
-<p id="saveStatus" class="muted">Ready.</p>
-</div>
+  <h2>Personal Notes</h2>
+  <div class="card">
+    <p class="muted">Notes save automatically in this browser on this device. They are not shared with other visitors.</p>
+    <textarea id="notesText" placeholder="Write your ideas, missions, reminders..."></textarea>
+    <button class="btn" onclick="downloadNotes()">Download notes backup</button>
+    <button class="btn" onclick="clearNotes()">Clear notes</button>
+    <p id="saveStatus" class="muted">Ready.</p>
+  </div>
 </section>
+
 </main>
 
 <footer>NIGHTSHIFT HUB · Built for learning, gaming and creating.</footer>
 
 <script>
-function show(id,btn){
-document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-}
-function updateClock(){
-const now=new Date();
-document.getElementById('clock').textContent=now.toLocaleTimeString();
-document.getElementById('date').textContent=now.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-}
-setInterval(updateClock,1000);updateClock();
-
-document.querySelectorAll('.check').forEach((box,i)=>{
-box.checked=localStorage.getItem('nightshift-check-'+i)==='true';
-box.addEventListener('change',()=>localStorage.setItem('nightshift-check-'+i,box.checked));
-});
-function resetChecks(){
-document.querySelectorAll('.check').forEach((box,i)=>{
-box.checked=false;localStorage.removeItem('nightshift-check-'+i);
-});
+function show(id,btn) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
-const commands=[
-['whoami','Shows your current Windows username.'],
-['hostname','Shows your computer name.'],
-['ipconfig','Displays network configuration.'],
-['ping google.com','Tests your internet connection.'],
-['nslookup google.com','Looks up a domain name.'],
-['tracert google.com','Shows the network route to a website.'],
-['Get-Process','Lists running processes in PowerShell.'],
-['Get-Service','Lists Windows services.'],
-['Get-PhysicalDisk','Shows physical disk information.'],
-['Get-Date','Displays the current date and time.'],
-['winver','Opens Windows version information.'],
-['systeminfo','Displays detailed system information.'],
-['ipconfig /flushdns','Clears the DNS resolver cache.']
+// CLOCK
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString();
+  document.getElementById('date').textContent =
+    now.toLocaleDateString(undefined,{
+      weekday:'long',
+      year:'numeric',
+      month:'long',
+      day:'numeric'
+    });
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// CHECKLIST
+document.querySelectorAll('.check').forEach((box,i) => {
+  box.checked = localStorage.getItem('nightshift-check-'+i) === 'true';
+  box.addEventListener('change',() => {
+    localStorage.setItem('nightshift-check-'+i,box.checked);
+  });
+});
+
+function resetChecks() {
+  document.querySelectorAll('.check').forEach((box,i) => {
+    box.checked = false;
+    localStorage.removeItem('nightshift-check-'+i);
+  });
+}
+
+// ROBLOX AVATAR
+async function updateRobloxAvatar() {
+  const status = document.getElementById('avatarStatus');
+  const avatar = document.getElementById('robloxAvatar');
+
+  try {
+    const userResponse = await fetch(
+      'https://users.roblox.com/v1/usernames/users',
+      {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          usernames:['sk8kevin'],
+          excludeBannedUsers:false
+        })
+      }
+    );
+
+    if (!userResponse.ok) throw new Error('Roblox user lookup failed');
+
+    const userData = await userResponse.json();
+    if (!userData.data || !userData.data.length) {
+      status.textContent = 'Roblox username not found.';
+      return;
+    }
+
+    const user = userData.data[0];
+    document.getElementById('robloxUsername').textContent = user.name;
+
+    const avatarResponse = await fetch(
+      'https://thumbnails.roblox.com/v1/users/avatar?userIds=' +
+      user.id + '&size=420x420&format=Png&isCircular=false'
+    );
+
+    if (!avatarResponse.ok) throw new Error('Avatar lookup failed');
+
+    const avatarData = await avatarResponse.json();
+    const imageUrl = avatarData.data && avatarData.data[0]
+      ? avatarData.data[0].imageUrl
+      : null;
+
+    if (imageUrl) {
+      avatar.src = imageUrl;
+      status.textContent = 'Profile picture updated. Checks every 60 seconds.';
+    } else {
+      status.textContent = 'Avatar image is not available yet.';
+    }
+
+  } catch (error) {
+    status.textContent = 'Could not load avatar. Roblox may be unavailable.';
+  }
+}
+
+updateRobloxAvatar();
+setInterval(updateRobloxAvatar,60000);
+
+// COMMAND LIBRARY
+const commands = [
+  ['whoami','Shows your current Windows username.'],
+  ['hostname','Shows your computer name.'],
+  ['ipconfig','Displays network configuration.'],
+  ['ping google.com','Tests your internet connection.'],
+  ['nslookup google.com','Looks up a domain name.'],
+  ['tracert google.com','Shows the network route to a website.'],
+  ['Get-Process','Lists running processes in PowerShell.'],
+  ['Get-Service','Lists Windows services.'],
+  ['Get-PhysicalDisk','Shows physical disk information.'],
+  ['Get-Date','Displays the current date and time.'],
+  ['winver','Opens Windows version information.'],
+  ['systeminfo','Displays detailed system information.'],
+  ['ipconfig /flushdns','Clears the DNS resolver cache.']
 ];
-function renderCommands(list){
-document.getElementById('commandList').innerHTML=list.map(([cmd,desc])=>
-`<div class="card"><strong>${cmd}</strong><p class="muted">${desc}</p><button class="btn" onclick="copyCommand('${cmd}')">Copy command</button></div>`
-).join('');
+
+function renderCommands(list) {
+  document.getElementById('commandList').innerHTML = list.map(([cmd,desc]) =>
+    `<div class="card command">
+      <strong>${cmd}</strong>
+      <p class="muted">${desc}</p>
+      <button class="btn" onclick="copyCommand('${cmd}')">Copy command</button>
+    </div>`
+  ).join('');
 }
-function filterCommands(){
-const q=document.getElementById('search').value.toLowerCase();
-renderCommands(commands.filter(c=>c[0].toLowerCase().includes(q)||c[1].toLowerCase().includes(q)));
+
+function filterCommands() {
+  const q = document.getElementById('search').value.toLowerCase();
+  renderCommands(commands.filter(c =>
+    c[0].toLowerCase().includes(q) ||
+    c[1].toLowerCase().includes(q)
+  ));
 }
-function copyCommand(cmd){
-navigator.clipboard.writeText(cmd).then(()=>alert('Command copied!')).catch(()=>alert('Copy unavailable. Select the command manually.'));
+
+function copyCommand(cmd) {
+  navigator.clipboard.writeText(cmd)
+    .then(() => alert('Command copied!'))
+    .catch(() => alert('Copy unavailable. Select the command manually.'));
 }
-const notes=document.getElementById('notesText');
-notes.value=localStorage.getItem('nightshift-notes')||'';
-notes.addEventListener('input',()=>{
-localStorage.setItem('nightshift-notes',notes.value);
-document.getElementById('saveStatus').textContent='Saved automatically ✓';
+
+// NOTES
+const notes = document.getElementById('notesText');
+notes.value = localStorage.getItem('nightshift-notes') || '';
+
+notes.addEventListener('input',() => {
+  localStorage.setItem('nightshift-notes',notes.value);
+  document.getElementById('saveStatus').textContent = 'Saved automatically ✓';
 });
-function clearNotes(){
-if(confirm('Clear all your saved notes?')){
-notes.value='';localStorage.removeItem('nightshift-notes');
-document.getElementById('saveStatus').textContent='Notes cleared.';
+
+function clearNotes() {
+  if (confirm('Clear all your saved notes?')) {
+    notes.value = '';
+    localStorage.removeItem('nightshift-notes');
+    document.getElementById('saveStatus').textContent = 'Notes cleared.';
+  }
 }
+
+function downloadNotes() {
+  const blob = new Blob([notes.value],{type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'nightshift-notes.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
-function downloadNotes(){
-const blob=new Blob([notes.value],{type:'text/plain'});
-const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);a.download='nightshift-notes.txt';a.click();
-URL.revokeObjectURL(a.href);
-}
+
 renderCommands(commands);
 </script>
+
 </body>
 </html>
