@@ -272,7 +272,13 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 .night-player.youtube-mode .player-visualizer{margin-bottom:3px}
 .night-player.youtube-mode .player-buttons,.night-player.youtube-mode .player-volume{display:none}
 .player-note{display:block;margin-top:7px;font-size:10px;color:#b7a9cb}
-.runner svg{width:100%;height:100%;overflow:visible}.dragon svg{width:100%;height:100%;overflow:visible}.runner{height:190px;width:116px}.dragon{width:265px;height:215px}@media(max-width:650px){.runner{width:84px;height:155px}.dragon{width:165px;height:155px}}</style>
+.runner svg{width:100%;height:100%;overflow:visible}.dragon svg{width:100%;height:100%;overflow:visible}.runner{height:190px;width:116px}.dragon{width:265px;height:215px}@media(max-width:650px){.runner{width:84px;height:155px}.dragon{width:165px;height:155px}}
+/* Character detail pass: improved outlines and responsive presentation */
+.runner svg,.dragon svg{shape-rendering:geometricPrecision;filter:drop-shadow(0 3px 1px rgba(0,0,0,.22))}
+.runner:hover svg{filter:drop-shadow(0 0 8px rgba(194,245,255,.65))}
+.dragon svg{filter:drop-shadow(0 5px 4px rgba(25,4,22,.45))}
+@media(min-width:850px){.dragon{width:290px;height:225px}.runner{width:122px;height:195px}}
+</style>
 </head>
 
 <body><div class="night-sky" aria-hidden="true"><div class="sky-stars"></div><div class="sky-fog"></div><div class="sky-flash"></div></div>
@@ -390,7 +396,7 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 <path d="M54 72Q45 49 59 35Q76 22 94 38Q110 52 99 80L91 105 60 104Z" fill="#d8dfc8"/>
 <path d="M48 49 34 44 45 35 28 23 48 24 42 7 60 17 66 1 76 15 89 0 92 18 109 7 107 28 123 27 111 42 121 51 106 58 104 75 94 66 89 44 65 47 57 66Z" fill="#b9e8f2" stroke="#527b8b" stroke-width="3"/>
 <path d="M53 65Q59 58 70 64M82 63Q91 56 99 62" fill="none" stroke="#6e7774" stroke-width="4"/><ellipse cx="64" cy="73" rx="9" ry="11" fill="#f7f7e5"/><ellipse cx="91" cy="72" rx="9" ry="11" fill="#f7f7e5"/><circle cx="66" cy="75" r="2.4" fill="#25282b"/><circle cx="91" cy="74" r="2.4" fill="#25282b"/><path d="m78 70-3 13 7 2M65 94Q77 89 92 94" fill="none" stroke="#6d5f5b" stroke-width="2.3"/><path d="M65 95q8 8 18 0" fill="#66535a"/><path d="M71 98q4 7 8 2" fill="#a9d2d2" stroke="none"/><path d="m53 104 10 7 11 17 12-17 9-7" fill="none" stroke="#72999b" stroke-width="2"/>
-</g></svg><span class="character-label">RICK • CLICK ME</span></div>
+</g><g fill="none" stroke-linecap="round"><path d="M49 36 38 30M58 18 56 8M77 14 79 5M101 29 114 22" stroke="#d8f9ff" stroke-width="3"/><path d="M57 82q7-3 13 0m14-1q7-4 13 0" stroke="#b3b5a5" stroke-width="1.8"/><path d="M53 130 44 162M96 131l8 31" stroke="#93aeb0" stroke-width="1.7"/><path d="M54 160h15m23-6h10" stroke="#a5c2c2" stroke-width="1.5"/></g></svg><span class="character-label">RICK • CLICK ME</span></div>
       <div class="runner morty" id="morty" role="button" tabindex="0" aria-label="Click Morty to knock him out" onclick="knockout('morty')"><svg viewBox="0 0 150 250" aria-hidden="true"><g stroke="#3a3030" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round">
 <path d="M48 170 44 219 64 220 74 178 85 220 106 219 100 170Z" fill="#477eb4"/><path d="m43 216-5 16 29 1-1-14m19-2-1 16 29-1-9-16" fill="#f3f3e9"/>
 <path d="M50 111Q38 111 34 126L19 157 33 168 50 143 46 181 103 181 101 143 118 169 132 157 115 124Q110 112 98 111Z" fill="#f4d846"/><path d="m18 155-4 11 17 12 6-14m81 0 7 13 16-12-10-12" fill="#f0c6a7"/>
@@ -398,7 +404,7 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 <path d="M44 56Q42 27 72 22Q105 21 111 54Q119 87 97 107Q75 122 53 105Q38 89 44 56Z" fill="#f2c9a6"/>
 <path d="M42 63Q29 34 51 20Q77 4 100 23Q116 35 112 60Q105 40 92 39Q72 45 48 38Z" fill="#654735"/>
 <ellipse cx="61" cy="73" rx="13" ry="15" fill="#fffaf3"/><ellipse cx="91" cy="73" rx="13" ry="15" fill="#fffaf3"/><circle cx="64" cy="76" r="3.1" fill="#312a2b"/><circle cx="90" cy="76" r="3.1" fill="#312a2b"/><path d="M75 77q-4 9 3 12" fill="none"/><path d="M63 98q12-8 25 0q-13 14-25 0Z" fill="#5d333a"/><path d="M66 99h18" stroke="#fff5e9" stroke-width="3"/><path d="M48 59q10-9 24-3M81 56q13-7 23 2" fill="none" stroke="#694837" stroke-width="3"/>
-</g></svg><span class="character-label">MORTY • CLICK ME</span></div>
+</g><g fill="none" stroke-linecap="round"><path d="M46 38Q69 10 101 33" stroke="#8b6349" stroke-width="3"/><path d="M53 63q8-4 17-1m14 0q8-4 17 1" stroke="#76513c" stroke-width="2"/><path d="M54 115q18 9 39 0" stroke="#e4b73c" stroke-width="2"/><path d="M48 173h54" stroke="#bd9d35" stroke-width="1.7"/></g></svg><span class="character-label">MORTY • CLICK ME</span></div>
       <div class="dragon" aria-label="Balthromaw red dragon"><svg viewBox="0 0 460 300" aria-hidden="true"><defs><linearGradient id="dragonBody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c05b66"/><stop offset=".55" stop-color="#7f2f44"/><stop offset="1" stop-color="#451c30"/></linearGradient><linearGradient id="dragonWing" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c15c65"/><stop offset="1" stop-color="#5d243b"/></linearGradient></defs><g stroke="#351c2b" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
 <path d="M176 175Q100 80 8 18L41 116 5 100Q40 210 177 235Z" fill="url(#dragonWing)"/><path d="M216 171Q271 45 404 7L364 107 448 63Q405 204 239 241Z" fill="url(#dragonWing)"/><path d="M18 32 153 196 48 121M393 24 246 195 364 111" fill="none" stroke="#e18a89" stroke-width="8"/><path d="M37 112 120 188 72 170M363 105 287 183 364 159" fill="none" stroke="#7c3044" stroke-width="7"/>
 <path d="M96 213Q76 243 35 259Q99 272 153 244Q183 280 241 267Q305 252 313 209Q315 172 271 151Q210 119 162 158Q123 158 96 213Z" fill="url(#dragonBody)"/>
@@ -409,7 +415,7 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 <path d="M391 112Q414 116 429 139L410 145 379 133Z" fill="#a84858"/><ellipse cx="415" cy="134" rx="5" ry="3" fill="#391e2b"/><path d="M355 144Q392 151 429 143Q419 170 387 168L361 158Z" fill="#351a28"/><path d="m373 151 7 11 9-9 8 12 9-14" fill="#fff2d7" stroke-width="1.5"/>
 <path d="M282 164q-7 15-12 29m24-35-9 32m20-44-7 31" fill="none" stroke="#d37a7c" stroke-width="7"/>
 <path d="M111 208Q73 204 47 183Q43 222 95 235" fill="#8b3347"/>
-</g></svg></div>
+</g><g stroke-linecap="round" stroke-linejoin="round"><path d="M169 177q32-22 66-13M158 189q39-20 77-10M173 205q36-10 65-3" fill="none" stroke="#d78b87" stroke-width="3" opacity=".65"/><path d="M321 131q13-7 21-5M375 176q24-4 41-19" fill="none" stroke="#df9191" stroke-width="3"/><path d="M343 77q10-9 20-7M388 90q9-3 16 3" fill="none" stroke="#e8a2a2" stroke-width="3"/><path d="M57 151 96 185 66 175M348 134 311 158 350 151" fill="none" stroke="#e28b8e" stroke-width="3" opacity=".75"/><circle cx="424" cy="131" r="2.2" fill="#ec9c9e"/><path d="M389 164q17 4 28-5" fill="none" stroke="#bb6671" stroke-width="2"/></g></svg></div>
       <div class="rain"></div>
     </div>
     <div class="game-hint">🌧 Heavy rain is falling. ⚡ Lightning flashes across the sky. 🔥 Watch out for the dragon's fire!</div>
