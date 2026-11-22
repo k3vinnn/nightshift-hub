@@ -153,6 +153,50 @@ footer {
   padding: 30px;
   color: var(--muted);
 }
+
+/* NIGHTSHIFT profile + CHAOS RUN */
+.avatar-wrap{position:relative;width:104px;height:104px;flex:none}
+.avatar{width:104px;height:104px;border-radius:50%;border:3px solid var(--purple);object-fit:cover;background:#211b30;box-shadow:0 0 22px #b58aff66}
+.status-dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:#85818e;border:2px solid #171321}
+.avatar-wrap .status-dot{position:absolute;right:3px;bottom:4px;width:21px;height:21px;border:3px solid #171321}
+.status-dot.online{background:#43e58a;box-shadow:0 0 12px #43e58a99}
+.status-dot.ingame{background:#53b8ff;box-shadow:0 0 12px #53b8ff99}
+.status-line{display:flex;align-items:center;gap:8px;font-weight:bold}
+.status-line .status-dot{width:10px;height:10px;border:0}
+.game-shell{overflow:hidden;border:1px solid #8d70b8;border-radius:18px;background:#111020;box-shadow:0 20px 55px #0008}
+.game-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;padding:15px 18px;background:#100e1bcc;border-bottom:1px solid #8d70b844}
+.game-top strong{letter-spacing:2px;color:#d5b8ff}.game-stats{display:flex;gap:15px;color:#c9c1d8;font-size:13px}
+.arena{height:390px;position:relative;overflow:hidden;background:linear-gradient(180deg,#151b35 0%,#28213d 62%,#10101b 63%,#181323 100%);isolation:isolate}
+.arena:after{content:"";position:absolute;z-index:0;left:0;right:0;bottom:0;height:36%;background:linear-gradient(0deg,#080910,#171321);border-top:2px solid #655078}
+.moon{position:absolute;right:12%;top:38px;width:70px;height:70px;border-radius:50%;background:#d8d0ff;box-shadow:0 0 40px #b5a5ff99;opacity:.72}
+.cloud{position:absolute;top:70px;left:-160px;width:150px;height:30px;border-radius:50px;background:#44445e;opacity:.65;filter:blur(2px);animation:cloudmove 18s linear infinite}
+.cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%;width:65px;height:55px;left:25px;top:-25px}
+.cloud:after{width:75px;height:65px;left:85px;top:-35px}
+.cloud.c2{top:130px;animation-duration:25s;animation-direction:reverse}
+@keyframes cloudmove{to{transform:translateX(120vw)}}
+.rain{position:absolute;inset:-30px 0 0;z-index:8;pointer-events:none;opacity:.62;background-image:repeating-linear-gradient(105deg,transparent 0 16px,#b8d8ff66 17px,#b8d8ff66 18px,transparent 19px 34px);background-size:90px 130px;animation:rainfall .35s linear infinite}
+@keyframes rainfall{to{background-position:0 130px}}
+.lightning{position:absolute;inset:0;background:#d9e7ff;opacity:0;z-index:7;pointer-events:none}
+.lightning.flash{animation:flash .55s ease-out}
+@keyframes flash{0%{opacity:0}8%{opacity:.62}16%{opacity:.05}27%{opacity:.38}40%,100%{opacity:0}}
+.bolt{position:absolute;right:22%;top:0;width:70px;height:170px;opacity:0;z-index:9;filter:drop-shadow(0 0 10px #dce8ff)}
+.bolt.flash{opacity:1}
+.runner{position:absolute;bottom:53px;width:105px;height:175px;z-index:5;cursor:pointer;display:flex;align-items:center;flex-direction:column;justify-content:flex-end;filter:drop-shadow(0 8px 8px #0008);transition:opacity .35s,transform .35s}
+.runner .person{font-size:105px;line-height:1;filter:drop-shadow(0 3px 3px #0008)}
+.runner .character-label{font-size:12px;font-weight:bold;letter-spacing:1px;text-shadow:0 2px 5px #000;white-space:nowrap;color:#fff}
+.runner:hover{filter:drop-shadow(0 0 15px #d5b8ff)}
+.runner.rick{left:22%;animation:runbob .5s ease-in-out infinite alternate}
+.runner.morty{left:41%;animation:runbob .43s ease-in-out infinite alternate-reverse}
+@keyframes runbob{to{transform:translateY(-9px) rotate(2deg)}}
+.runner.ko{opacity:0;transform:translateY(90px) rotate(80deg) scale(.7);pointer-events:none;animation:none}
+.dragon{position:absolute;right:2%;bottom:50px;width:230px;height:205px;z-index:4;font-size:150px;text-align:center;filter:drop-shadow(0 12px 12px #0009);animation:dragonhover 1.4s ease-in-out infinite alternate}
+@keyframes dragonhover{to{transform:translateY(-12px) rotate(-2deg)}}
+.fire{position:absolute;z-index:3;right:18%;bottom:112px;width:0;height:48px;border-radius:50%;background:linear-gradient(90deg,#fff6a0,#ffb12b 35%,#ff4c25 75%,transparent);filter:blur(5px);transform-origin:right center;animation:fireblast 1.5s ease-in-out infinite}
+@keyframes fireblast{0%,20%{width:0;opacity:0}35%{width:190px;opacity:1}60%{width:120px;opacity:.8}75%,100%{width:0;opacity:0}}
+.game-hint{padding:14px 18px;color:#b9b0c9;font-size:13px;background:#0e0c18}
+.game-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.game-message{color:#d9c7ff;font-weight:bold;min-height:22px;margin:8px 0 0}
+@media(max-width:650px){.arena{height:340px}.runner{transform:scale(.78);transform-origin:bottom center}.runner.rick{left:8%}.runner.morty{left:30%}.dragon{right:-40px;transform:scale(.78);transform-origin:bottom right}.fire{right:15%}.game-stats{gap:8px}}
+
 </style>
 </head>
 
@@ -166,6 +210,7 @@ footer {
 <nav>
   <button class="active" onclick="show('home',this)">Dashboard</button>
   <button onclick="show('gaming',this)">Gaming</button>
+  <button onclick="show('chaos',this)">⚡ Chaos Run</button>
   <button onclick="show('lab',this)">Tech Lab</button>
   <button onclick="show('commands',this)">Commands</button>
   <button onclick="show('notes',this)">Notes</button>
@@ -193,12 +238,11 @@ footer {
   <div class="card">
     <h2>Roblox Profile</h2>
     <div class="profile">
-      <img id="robloxAvatar" class="avatar" alt="Roblox avatar"
-           src="https://www.roblox.com/favicon.ico">
+      <div class="avatar-wrap"><img id="robloxAvatar" class="avatar" alt="Kevo Roblox avatar" src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-9BA810EDEA3370B2F1D30B1025595CDB-Png-Background/150/150/AvatarHeadshot/Webp/noFilter"><span id="avatarDot" class="status-dot"></span></div>
       <div>
         <h3 id="robloxUsername">sk8kevin</h3>
-        <p class="muted"><span class="status-dot"></span>Avatar checker active</p>
-        <small id="avatarStatus">Loading Roblox profile...</small>
+        <div class="status-line"><span id="statusMini" class="status-dot"></span><span id="presenceText">Checking Roblox status...</span></div>
+        <small id="avatarStatus">Checking profile and presence. Refreshes every minute.</small>
         <p><a href="https://www.roblox.com/users/profile" target="_blank">Open Roblox ↗</a></p>
       </div>
     </div>
@@ -251,6 +295,28 @@ footer {
       </ul>
     </div>
   </div>
+</section>
+
+
+<section id="chaos">
+  <h2>⚡ CHAOS RUN</h2>
+  <p class="muted">A stormy little survival scene. Click Rick or Morty to knock them out of the chase. Can you get them both?</p>
+  <div class="game-shell">
+    <div class="game-top"><strong>DIMENSION C-137 // STORM ALERT</strong><div class="game-stats"><span>☠ KOs: <b id="koCount">0</b>/2</span><span>⛈ WEATHER: EXTREME</span></div></div>
+    <div class="arena" id="arena">
+      <div class="moon"></div><div class="cloud"></div><div class="cloud c2"></div>
+      <div class="lightning" id="lightning"></div>
+      <svg class="bolt" id="bolt" viewBox="0 0 80 180" aria-hidden="true"><path d="M46 0 15 88 39 82 25 180 68 63 44 69Z" fill="#e7edff" stroke="#fff" stroke-width="3"/></svg>
+      <div class="fire"></div>
+      <div class="runner rick" id="rick" role="button" tabindex="0" aria-label="Click Rick to knock him out" onclick="knockout('rick')"><span class="person">🧑🏻‍🔬</span><span class="character-label">RICK • CLICK ME</span></div>
+      <div class="runner morty" id="morty" role="button" tabindex="0" aria-label="Click Morty to knock him out" onclick="knockout('morty')"><span class="person">😨</span><span class="character-label">MORTY • CLICK ME</span></div>
+      <div class="dragon" aria-label="Fire-breathing dragon">🐉</div>
+      <div class="rain"></div>
+    </div>
+    <div class="game-hint">🌧 Heavy rain is falling. ⚡ Lightning flashes across the sky. 🔥 Watch out for the dragon's fire!</div>
+  </div>
+  <div class="game-actions"><button class="btn" onclick="resetGame()">↻ Restart chase</button><button class="btn" onclick="toggleStorm()" id="stormBtn">⛈ Toggle storm</button></div>
+  <p class="game-message" id="gameMessage">The dragon is closing in. Click a character to knock them out!</p>
 </section>
 
 <section id="lab">
@@ -348,59 +414,49 @@ function resetChecks() {
   });
 }
 
-// ROBLOX AVATAR
+// ROBLOX AVATAR + LIVE PRESENCE
 async function updateRobloxAvatar() {
   const status = document.getElementById('avatarStatus');
   const avatar = document.getElementById('robloxAvatar');
-
+  const presenceText = document.getElementById('presenceText');
+  const dot = document.getElementById('avatarDot');
+  const mini = document.getElementById('statusMini');
   try {
-    const userResponse = await fetch(
-      'https://users.roblox.com/v1/usernames/users',
-      {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          usernames:['sk8kevin'],
-          excludeBannedUsers:false
-        })
-      }
-    );
-
+    const userResponse = await fetch('https://users.roblox.com/v1/usernames/users', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({usernames:['sk8kevin'],excludeBannedUsers:false})
+    });
     if (!userResponse.ok) throw new Error('Roblox user lookup failed');
-
     const userData = await userResponse.json();
-    if (!userData.data || !userData.data.length) {
-      status.textContent = 'Roblox username not found.';
-      return;
-    }
-
+    if (!userData.data || !userData.data.length) throw new Error('Username not found');
     const user = userData.data[0];
-    document.getElementById('robloxUsername').textContent = user.name;
-
-    const avatarResponse = await fetch(
-      'https://thumbnails.roblox.com/v1/users/avatar?userIds=' +
-      user.id + '&size=420x420&format=Png&isCircular=false'
-    );
-
-    if (!avatarResponse.ok) throw new Error('Avatar lookup failed');
-
-    const avatarData = await avatarResponse.json();
-    const imageUrl = avatarData.data && avatarData.data[0]
-      ? avatarData.data[0].imageUrl
-      : null;
-
-    if (imageUrl) {
-      avatar.src = imageUrl;
-      status.textContent = 'Profile picture updated. Checks every 60 seconds.';
-    } else {
-      status.textContent = 'Avatar image is not available yet.';
+    document.getElementById('robloxUsername').textContent = 'Kevo · @' + user.name;
+    const avatarResponse = await fetch('https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=' + user.id + '&size=150x150&format=Png&isCircular=true');
+    if (avatarResponse.ok) {
+      const avatarData = await avatarResponse.json();
+      const imageUrl = avatarData.data && avatarData.data[0] ? avatarData.data[0].imageUrl : null;
+      if (imageUrl) avatar.src = imageUrl;
     }
-
+    const presenceResponse = await fetch('https://presence.roblox.com/v1/presence/users', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({userIds:[user.id]})
+    });
+    if (!presenceResponse.ok) throw new Error('Presence unavailable');
+    const presenceData = await presenceResponse.json();
+    const p = presenceData.userPresences && presenceData.userPresences[0];
+    if (!p) throw new Error('Presence unavailable');
+    const labels = ['Offline','Online','In Game','In Studio'];
+    const label = labels[p.userPresenceType] || 'Status unavailable';
+    presenceText.textContent = label;
+    [dot,mini].forEach(el => {el.classList.remove('online','ingame');});
+    if (p.userPresenceType === 1) [dot,mini].forEach(el => el.classList.add('online'));
+    if (p.userPresenceType === 2 || p.userPresenceType === 3) [dot,mini].forEach(el => el.classList.add('ingame'));
+    status.textContent = 'Roblox presence refreshes every 60 seconds.';
   } catch (error) {
-    status.textContent = 'Could not load avatar. Roblox may be unavailable.';
+    presenceText.textContent = 'Status unavailable';
+    status.textContent = 'Roblox did not return presence data. Your avatar may still display.';
   }
 }
-
 updateRobloxAvatar();
 setInterval(updateRobloxAvatar,60000);
 
@@ -444,6 +500,41 @@ function copyCommand(cmd) {
     .then(() => alert('Command copied!'))
     .catch(() => alert('Copy unavailable. Select the command manually.'));
 }
+
+
+// CHAOS RUN GAME
+let knockedOut = new Set();
+function knockout(name) {
+  if (knockedOut.has(name)) return;
+  knockedOut.add(name);
+  document.getElementById(name).classList.add('ko');
+  document.getElementById('koCount').textContent = knockedOut.size;
+  const message = document.getElementById('gameMessage');
+  message.textContent = knockedOut.size === 2 ? 'BOTH DOWN. The dragon wins this round. Hit restart to run it back.' : (name === 'rick' ? 'Rick got caught in the chaos! Morty is still running!' : 'Morty is out! Rick is still trying to escape!');
+}
+function resetGame() {
+  knockedOut.clear();
+  ['rick','morty'].forEach(id => document.getElementById(id).classList.remove('ko'));
+  document.getElementById('koCount').textContent = '0';
+  document.getElementById('gameMessage').textContent = 'The chase is back on. Click Rick or Morty!';
+}
+function toggleStorm() {
+  const rain = document.querySelector('.rain');
+  rain.style.display = rain.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('stormBtn').textContent = rain.style.display === 'none' ? '🌧 Turn rain on' : '⛈ Toggle storm';
+}
+['rick','morty'].forEach(id => document.getElementById(id).addEventListener('keydown',e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); knockout(id); }
+}));
+function thunderFlash() {
+  const flash = document.getElementById('lightning');
+  const bolt = document.getElementById('bolt');
+  flash.classList.remove('flash'); bolt.classList.remove('flash');
+  void flash.offsetWidth;
+  flash.classList.add('flash'); bolt.classList.add('flash');
+  setTimeout(() => bolt.classList.remove('flash'), 260);
+}
+setInterval(() => { if (document.getElementById('chaos').classList.contains('active')) thunderFlash(); }, 5200);
 
 // NOTES
 const notes = document.getElementById('notesText');
