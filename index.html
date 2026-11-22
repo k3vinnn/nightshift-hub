@@ -307,6 +307,41 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 #nsSnakeCanvas{display:block;max-width:100%;width:300px;aspect-ratio:1;background:#0b1320;border:2px solid #9163d1;border-radius:10px;margin:10px auto;image-rendering:pixelated}
 .ns-dpad{text-align:center;margin:10px}.ns-dpad button{background:#493266;border:1px solid #9b75cb;color:white;border-radius:8px;padding:9px 15px;margin:3px;cursor:pointer}
 @media(max-width:620px){.ns-desktop{height:450px}.ns-window{left:16%;width:80%;top:60px}.ns-card{padding:14px}}
+
+/* MULTIVERSE: theme variables override site accents without changing existing functionality */
+body.ns-dimension-neon{--purple:#69ffa7;--border:rgba(105,255,167,.3);--bg:#06170f;--panel:rgba(7,29,21,.9)}
+body.ns-dimension-frost{--purple:#80d8ff;--border:rgba(128,216,255,.3);--bg:#081625;--panel:rgba(11,29,46,.9)}
+body.ns-dimension-inferno{--purple:#ff9772;--border:rgba(255,151,114,.3);--bg:#210b10;--panel:rgba(42,13,20,.9)}
+body.ns-dimension-horror{--purple:#d56b89;--border:rgba(213,107,137,.35);--bg:#0c090c;--panel:rgba(17,11,17,.95)}
+body.ns-dimension-neon .sky-fog{filter:hue-rotate(125deg) blur(35px)}
+body.ns-dimension-frost .sky-fog{filter:hue-rotate(65deg) blur(35px)}
+body.ns-dimension-inferno .sky-fog{filter:hue-rotate(230deg) blur(35px)}
+body.ns-dimension-horror .sky-fog{filter:grayscale(1) blur(35px);opacity:.9}
+.ns-dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:18px}
+.ns-dim-card{min-height:145px;display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding:16px;border:1px solid var(--border,#6d5388);border-radius:15px;background:var(--panel,#151120);color:var(--text,#fff);text-align:left;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.ns-dim-card:hover{transform:translateY(-3px);box-shadow:0 0 20px #a879ff44}
+.ns-dim-card.selected{outline:2px solid var(--purple,#a879ff);box-shadow:0 0 25px #a879ff55}
+.ns-dim-card span{font-size:30px}.ns-dim-card strong{font-size:13px;letter-spacing:.7px}.ns-dim-card small{color:var(--muted,#b2a5c0)}
+.ns-horror-setting{display:flex;gap:8px;align-items:center;margin-top:18px;font-size:12px;color:var(--muted,#bbb)}.ns-horror-setting input{width:auto;accent-color:#d56b89}
+body.ns-dimension-horror .sky-flash{animation:nsHauntedFlash 13s infinite}
+@keyframes nsHauntedFlash{0%,57%,58%,59%,100%{opacity:0}57.2%{opacity:.13}58.2%{opacity:.08}}
+body.ns-dimension-horror:before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 4px,#00000010 5px 6px);animation:nsHauntedFlicker 6s infinite}
+@keyframes nsHauntedFlicker{0%,94%,96%,100%{opacity:.15}95%{opacity:.55}}
+.ns-horror-layer{display:none;position:fixed;inset:0;z-index:1000;pointer-events:none;background:radial-gradient(ellipse at center,#250c17 10%,#000 85%);place-items:center;animation:nsScareIn .8s ease-out forwards}
+.ns-horror-layer.active{display:grid}.ns-horror-eye{font-size:clamp(50px,14vw,140px);letter-spacing:25px;color:#ff4772;text-shadow:0 0 30px #ff234d}
+@keyframes nsScareIn{0%{opacity:0}18%{opacity:.9}100%{opacity:0}}
+.ns-bot{position:fixed;left:18px;bottom:18px;z-index:130;width:min(335px,calc(100vw - 30px));font-family:Arial,sans-serif;color:#eeeafa}
+.ns-bot-toggle{border:1px solid #a47de1;background:linear-gradient(120deg,#362056,#171128);color:#fff;border-radius:30px;padding:12px 16px;font-weight:bold;cursor:pointer;box-shadow:0 6px 26px #0009}
+.ns-bot-panel{margin-bottom:10px;padding:13px;border:1px solid #b08ae8;border-radius:16px;background:#141021f7;box-shadow:0 14px 45px #000c;backdrop-filter:blur(15px)}
+.ns-bot-panel[hidden]{display:none}.ns-bot-head{display:flex;justify-content:space-between;align-items:center;letter-spacing:1px}.ns-bot-head button{border:0;background:transparent;color:white;font-size:24px;cursor:pointer}
+.ns-bot-caption{display:block;color:#aa9abd;font-size:10px;margin:5px 0 10px}
+.ns-bot-messages{height:205px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:7px;background:#0c0b17;border-radius:9px}
+.ns-bot-message{max-width:94%;padding:9px 11px;border-radius:12px;font-size:12px;line-height:1.5;margin:0;white-space:pre-wrap}
+.ns-bot-message.assistant{align-self:flex-start;background:#32224a}.ns-bot-message.user{align-self:flex-end;background:#23594d}
+.ns-bot-chips{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}.ns-bot-chips button{border:1px solid #8d6bb6;background:#2c2040;color:#eee;padding:5px 8px;border-radius:12px;font-size:10px;cursor:pointer}
+.ns-bot-form{display:flex;gap:7px}.ns-bot-form input{min-width:0;flex:1;margin:0;padding:9px;font-size:12px}.ns-bot-form button{background:#6c46a1;border:0;border-radius:8px;color:white;padding:0 13px;cursor:pointer}
+@media(max-width:500px){.ns-bot{left:10px;bottom:10px}.ns-bot-toggle span{font-size:11px}.night-player{right:10px}}
+@media(prefers-reduced-motion:reduce){body.ns-dimension-horror:before,body.ns-dimension-horror .sky-flash{animation:none!important}}
 </style>
 </head>
 
@@ -324,7 +359,7 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
   <button onclick="show('chaos',this)">⚡ Chaos Run</button>
   <button onclick="show('lab',this)">Tech Lab</button>
   <button onclick="show('commands',this)">Commands</button>
-  <button onclick="show('notes',this)">Notes</button><button onclick="show('levels',this)">🏆 XP & Levels</button><button onclick="show('os',this)">💻 NIGHTSHIFT OS</button><button onclick="show('vault',this)">🔐 Vault</button><button onclick="show('arcade',this)">🕹️ Arcade</button>
+  <button onclick="show('notes',this)">Notes</button><button onclick="show('levels',this)">🏆 XP & Levels</button><button onclick="show('os',this)">💻 NIGHTSHIFT OS</button><button onclick="show('vault',this)">🔐 Vault</button><button onclick="show('arcade',this)">🕹️ Arcade</button><button onclick="show('multiverse',this)">🌀 Multiverse</button>
 </nav>
 
 <main>
@@ -518,6 +553,22 @@ body>header,body>nav,body>main,body>footer{position:relative;z-index:1}
 <section id="arcade"><h2>🕹️ NIGHTSHIFT ARCADE</h2><p class="muted">Play two mini-games and earn XP. High scores save in this browser.</p>
 <div class="ns-arcade-grid"><div class="ns-card"><h3>⚡ Reaction Test</h3><p>Best: <strong id="nsReactionBest">—</strong></p><div id="nsReactionPad" class="ns-reaction-pad" role="button" tabindex="0" onclick="nsReactionTap()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nsReactionTap()}">Press START to begin</div><button class="btn" onclick="nsReactionStart()">START REACTION TEST</button><p id="nsReactionResult" class="muted">Wait for green, then tap!</p></div>
 <div class="ns-card"><h3>🐍 Neon Snake</h3><p>Score: <strong id="nsSnakeScore">0</strong> · Best: <strong id="nsSnakeBest">0</strong></p><canvas id="nsSnakeCanvas" width="300" height="300" aria-label="Snake game board"></canvas><div class="ns-inline"><button class="btn" onclick="nsSnakeStart()">START / RESTART</button><button class="btn" onclick="nsSnakeStop()">PAUSE</button></div><div class="ns-dpad"><button onclick="nsSnakeDirection(0,-1)">▲</button><div><button onclick="nsSnakeDirection(-1,0)">◀</button><button onclick="nsSnakeDirection(0,1)">▼</button><button onclick="nsSnakeDirection(1,0)">▶</button></div></div><p class="muted">Use arrow keys or the buttons. Tap the board to focus it.</p></div></div></section>
+
+<section id="multiverse"><h2>🌀 NIGHTSHIFT MULTIVERSE</h2><p class="muted">Choose your dimension. Each universe changes the site's atmosphere. Horror Mode is optional and can be turned off anytime.</p>
+<div class="ns-dim-grid">
+<button class="ns-dim-card" data-dimension="classic" onclick="nsSelectDimension('classic')"><span>🌌</span><strong>C-137 NIGHTSHIFT</strong><small>Original purple cosmos</small></button>
+<button class="ns-dim-card" data-dimension="neon" onclick="nsSelectDimension('neon')"><span>💚</span><strong>NEON WASTELAND</strong><small>Radioactive green glow</small></button>
+<button class="ns-dim-card" data-dimension="frost" onclick="nsSelectDimension('frost')"><span>❄️</span><strong>FROST DIMENSION</strong><small>Ice-blue winter night</small></button>
+<button class="ns-dim-card" data-dimension="inferno" onclick="nsSelectDimension('inferno')"><span>🔥</span><strong>INFERNO REALM</strong><small>Red-orange volcanic sky</small></button>
+<button class="ns-dim-card" data-dimension="horror" onclick="nsSelectDimension('horror')"><span>👁️</span><strong>THE ABANDONED DIMENSION</strong><small>Horror Mode · eerie fog and flickering lights</small></button>
+</div><div class="ns-card"><h3 id="nsDimensionTitle">🌌 C-137 NIGHTSHIFT</h3><p id="nsDimensionDesc">The original NIGHTSHIFT universe.</p><button class="btn" onclick="nsSelectDimension('classic')">Return to C-137</button><label class="ns-horror-setting"><input type="checkbox" id="nsHorrorScares" onchange="nsSetScares(this.checked)"> Enable occasional surprise scares in Horror Mode (off by default)</label></div>
+</section>
+<div class="ns-horror-layer" id="nsHorrorLayer" aria-hidden="true"><div class="ns-horror-eye">◉ ◉</div></div>
+<div class="ns-bot" id="nsBot"><button class="ns-bot-toggle" id="nsBotToggle" onclick="nsToggleBot()" aria-expanded="false" aria-controls="nsBotPanel">🤖 <span>SHIFT BOT</span></button>
+<div class="ns-bot-panel" id="nsBotPanel" hidden><div class="ns-bot-head"><strong>🤖 SHIFT BOT</strong><button onclick="nsToggleBot()" aria-label="Close assistant">×</button></div><small class="ns-bot-caption">NIGHTSHIFT's built-in helper · no external AI service</small>
+<div class="ns-bot-messages" id="nsBotMessages" role="log" aria-live="polite"><p class="ns-bot-message assistant">Yo! I'm SHIFT BOT. Ask me about the portal, arcade, XP, vault, music, OS, or dimensions. 👾</p></div>
+<div class="ns-bot-chips"><button onclick="nsBotAsk('How do I earn XP?')">Earn XP</button><button onclick="nsBotAsk('How do I use the portal?')">Portal</button><button onclick="nsBotAsk('Open the arcade')">Arcade</button></div>
+<form class="ns-bot-form" onsubmit="event.preventDefault();nsBotSend()"><input id="nsBotInput" aria-label="Ask SHIFT BOT" placeholder="Ask SHIFT BOT..." maxlength="300"><button type="submit">➤</button></form></div></div>
 
 </main>
 
@@ -988,6 +1039,72 @@ document.addEventListener('keydown',e=>{
  if(dirs[e.key]){e.preventDefault();nsSnakeDirection(...dirs[e.key])}
 });
 nsSnake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];nsSnakeDraw();
+
+
+/* Multiverse selector */
+const nsDimensionInfo={
+ classic:['🌌 C-137 NIGHTSHIFT','The original purple cosmic headquarters.'],
+ neon:['💚 NEON WASTELAND','Toxic green skies and a radioactive glow.'],
+ frost:['❄️ FROST DIMENSION','An icy blue world beyond the portal.'],
+ inferno:['🔥 INFERNO REALM','Volcanic skies and a blazing atmosphere.'],
+ horror:['👁️ THE ABANDONED DIMENSION','Haunted fog, flickering lights, and an optional surprise scare.']
+};
+let nsCurrentDimension='classic',nsScareInterval=null;
+function nsSelectDimension(dim){
+ if(!Object.prototype.hasOwnProperty.call(nsDimensionInfo,dim))dim='classic';
+ document.body.classList.remove(...Object.keys(nsDimensionInfo).map(x=>'ns-dimension-'+x));
+ if(dim!=='classic')document.body.classList.add('ns-dimension-'+dim);
+ nsCurrentDimension=dim;localStorage.setItem('nightshift-dimension',dim);
+ document.querySelectorAll('.ns-dim-card').forEach(b=>{b.classList.toggle('selected',b.dataset.dimension===dim);b.setAttribute('aria-pressed',String(b.dataset.dimension===dim))});
+ document.getElementById('nsDimensionTitle').textContent=nsDimensionInfo[dim][0];
+ document.getElementById('nsDimensionDesc').textContent=nsDimensionInfo[dim][1];
+ nsScheduleScare();
+}
+function nsSetScares(enabled){localStorage.setItem('nightshift-scares',enabled?'true':'false');nsScheduleScare()}
+function nsScheduleScare(){
+ if(nsScareInterval!==null){clearTimeout(nsScareInterval);nsScareInterval=null}
+ if(nsCurrentDimension!=='horror'||localStorage.getItem('nightshift-scares')!=='true'||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ nsScareInterval=setTimeout(()=>{
+  const layer=document.getElementById('nsHorrorLayer');
+  layer.classList.remove('active');void layer.offsetWidth;layer.classList.add('active');
+  setTimeout(()=>layer.classList.remove('active'),850);
+  nsScheduleScare();
+ },22000+Math.random()*19000);
+}
+document.getElementById('nsHorrorScares').checked=localStorage.getItem('nightshift-scares')==='true';
+nsSelectDimension(localStorage.getItem('nightshift-dimension')||'classic');
+/* SHIFT BOT: honest built-in assistant, no AI API or server */
+function nsToggleBot(){
+ const panel=document.getElementById('nsBotPanel');const open=panel.hidden;panel.hidden=!open;
+ document.getElementById('nsBotToggle').setAttribute('aria-expanded',String(open));
+ if(open)document.getElementById('nsBotInput').focus();
+}
+function nsBotLine(kind,message){
+ const p=document.createElement('p');p.className='ns-bot-message '+kind;p.textContent=message;
+ const log=document.getElementById('nsBotMessages');log.append(p);log.scrollTop=log.scrollHeight;
+}
+function nsBotNavigate(id){
+ const button=Array.from(document.querySelectorAll('nav button')).find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("show('"+id+"'"));
+ if(button){show(id,button);return true}return false;
+}
+function nsBotAnswer(question){
+ const q=question.toLowerCase().trim();
+ if(/^(hi|hey|hello|yo|sup|wassup|what's up)[!?. ]*$/.test(q))return "Yooo! 👾 Welcome to NIGHTSHIFT. Ask me about the arcade, levels, portal, OS, vault, music, or dimensions.";
+ if(/(who are you|are you ai|chatgpt|real ai)/.test(q))return "I'm SHIFT BOT, a built-in website helper. I use preset answers, not a live AI model or internet search.";
+ if(/(xp|level|rank|achievement)/.test(q))return "Earn XP by exploring tabs, firing the portal gun, completing reaction tests, and eating food in Snake. Open 🏆 XP & Levels to see your rank.";
+ if(/(portal|rick|morty|dragon|chaos)/.test(q))return "Go to ⚡ Chaos Run and press FIRE PORTAL GUN to visit different scenes. You can also click Rick or Morty!";
+ if(/(dimension|universe|multiverse|theme)/.test(q))return "Open 🌀 Multiverse to choose C-137, Neon Wasteland, Frost, Inferno, or Horror Mode. Your choice saves in this browser.";
+ if(/(horror|scary|scare|haunt)/.test(q))return "Choose THE ABANDONED DIMENSION in Multiverse for creepy fog and flickering lights. Surprise scares are OFF unless you enable them.";
+ if(/(arcade|snake|reaction|game)/.test(q)){nsBotNavigate('arcade');return "Opened the Arcade! Try Neon Snake with arrow keys, or test your reaction time."}
+ if(/(vault|secret|code|unlock)/.test(q))return "The vault is a puzzle. Open NIGHTSHIFT OS → Terminal and type vault for the four-digit clue.";
+ if(/(terminal|operating system|desktop|os)/.test(q)){nsBotNavigate('os');return "Opened NIGHTSHIFT OS. Click Terminal, Files, About, or Settings. In Terminal, type help to see commands."}
+ if(/(music|song|youtube|player|fattmack)/.test(q))return "Use the floating ♫ MUSIC button. Search for a song on YouTube, paste a video link, then load it into the embedded player. Some videos block embedding.";
+ if(/(note|save|writing)/.test(q)){nsBotNavigate('notes');return "Opened Notes. Your notes save automatically in this browser."}
+ if(/(help|commands|what can you do)/.test(q))return "I can help with: XP, arcade, Snake, portal gun, dimensions, Horror Mode, vault, OS terminal, music, and notes. Try asking 'Open the arcade'.";
+ return "I don't know that one yet 😭 I'm a built-in helper, not a full AI chatbot. Try asking about XP, the portal, Arcade, Vault, OS, Horror Mode, or music.";
+}
+function nsBotAsk(q){nsBotLine('user',q);nsBotLine('assistant',nsBotAnswer(q))}
+function nsBotSend(){const input=document.getElementById('nsBotInput');const q=input.value.trim();if(!q)return;input.value='';nsBotAsk(q)}
 
 // NOTES
 const notes = document.getElementById('notesText');
