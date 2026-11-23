@@ -408,6 +408,26 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 
 /* NIGHTSHIFT CINEMA — isolated from existing hub features */
 .ns-cinema-intro{color:#c7bfd5;line-height:1.6}.ns-cinema-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0}.ns-cinema-controls input{flex:1;min-width:180px;max-width:360px;margin:0}.ns-cinema-filter{border:1px solid #5b477a;background:#1c172c;color:#eeeafa;border-radius:20px;padding:9px 14px;cursor:pointer}.ns-cinema-filter.selected{background:#8051c7}.ns-cinema-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:16px}.ns-cinema-tile{background:rgba(17,14,29,.94);border:1px solid #5b477a;border-radius:14px;overflow:hidden;cursor:pointer;color:#eeeafa;text-align:left;padding:0;transition:transform .18s,border-color .18s}.ns-cinema-tile:hover{transform:translateY(-3px);border-color:#bd9bff}.ns-cinema-art{height:135px;display:grid;place-items:center;font-size:54px;background:radial-gradient(circle at 70% 20%,#67439c,#21172f 70%)}.ns-cinema-info{padding:13px}.ns-cinema-info strong{display:block;margin-bottom:8px}.ns-cinema-info small{display:block;line-height:1.5}.ns-cinema-watch{margin:15px 0 20px}.ns-cinema-watch[hidden]{display:none}.ns-cinema-frame{width:100%;aspect-ratio:16/9;border:1px solid #5b477a;border-radius:12px;background:#08080e}.ns-cinema-episodes{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.ns-cinema-episodes button{background:#251d38;color:#eeeafa;border:1px solid #735b9a;padding:8px 12px;border-radius:8px;cursor:pointer}.ns-cinema-episodes button.selected{background:#8051c7}.ns-cinema-note{font-size:13px;color:#bfb3d1;line-height:1.6}.ns-cinema-empty{padding:25px;color:#c7bfd5}
+
+/* UnboundINC upgrade: monochrome command center */
+body.ub-mono{--bg:#08090b;--panel:rgba(16,18,22,.94);--purple:#f2f3f5;--text:#f4f5f7;--muted:#a8adb5;--border:rgba(255,255,255,.19);background-image:linear-gradient(135deg,#07080bdc,#16191eea),url("13559.png")}
+body.ub-mono header,body.ub-mono nav{background:rgba(9,10,13,.91)}
+body.ub-mono header h1{color:#fff;text-shadow:0 0 24px #ffffff55}
+body.ub-mono nav button,body.ub-mono .btn{background:#191c22;border-color:#555d68;color:#fff}
+body.ub-mono nav button:hover,body.ub-mono nav button.active,body.ub-mono .btn:hover{background:#eee;color:#111;box-shadow:0 0 22px #ffffff44}
+body.ub-mono .card,body.ub-mono .ns-card{border-color:#ffffff30}
+body.ub-mono a{color:#e1e5eb}
+.ub-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ub-terminal{background:#050708;color:#c9f5d5;border:1px solid #536b5b;border-radius:12px;padding:18px;font:14px/1.7 Consolas,monospace;min-height:300px;max-height:430px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.ub-terminal-input{display:flex;align-items:center;gap:8px}.ub-terminal-input input{font:15px Consolas,monospace;flex:1}
+.ub-terminal-input label{color:#8fe2a4;font-family:monospace}
+.ub-cinema-season{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.ub-poster{height:170px;display:flex;align-items:center;justify-content:center;font-size:65px;background:linear-gradient(135deg,#171b23,#333b49);border-radius:10px;margin-bottom:10px}
+.ub-mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:15px}
+.ub-game-area{padding:20px;text-align:center;border:1px solid var(--border);border-radius:12px}
+.ub-tap-target{font-size:42px;min-height:75px;cursor:pointer}
+@media(prefers-reduced-motion:reduce){body.ub-mono *,body.ub-mono *:before,body.ub-mono *:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 
@@ -422,11 +442,11 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
   <button id="effectsBtn" onclick="toggleEffects()" title="Turn background animations on or off">✨ Effects: ON</button>
   <button class="active" onclick="show('home',this)">Dashboard</button>
   <button onclick="show('gaming',this)">Gaming</button>
-  <button onclick="show('cinema',this)">🎬 Cinema</button>
+  <button onclick="show('cinema',this)">🎬 Cinema</button><button onclick="show('terminal',this)">⌨ Terminal</button>
   <button onclick="show('chaos',this)">⚡ Chaos Run</button>
   <button onclick="show('lab',this)">Tech Lab</button>
   <button onclick="show('commands',this)">Commands</button>
-  <button onclick="show('notes',this)">Notes</button><button onclick="show('levels',this)">🏆 XP & Levels</button><button onclick="show('os',this)">💻 NIGHTSHIFT OS</button><button onclick="show('vault',this)">🔐 Vault</button><button onclick="show('arcade',this)">🕹️ Arcade</button><button onclick="show('multiverse',this)">🌀 Multiverse</button>
+  <button onclick="show('notes',this)">Notes</button><button onclick="show('levels',this)">🏆 XP & Levels</button><button onclick="show('os',this)">💻 NIGHTSHIFT OS</button><button onclick="show('vault',this)">🔐 Vault</button><button onclick="show('arcade',this)">🕹️ Arcade</button><button type="button" onclick="ubToggleTheme()" id="ubThemeBtn">◐ Mono Theme</button><button onclick="show('multiverse',this)">🌀 Multiverse</button>
   <button onclick="show('chatgpt',this)">🤖 ChatGPT</button>
 </nav>
 
@@ -621,7 +641,7 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
 <div class="ns-card" id="nsVaultRoom" hidden><h3>🌌 ACCESS GRANTED</h3><p>Welcome to the secret dimension. You discovered the NIGHTSHIFT vault!</p><button class="btn" onclick="nsSetVaultTheme()">💜 Activate Vault Glow</button><button class="btn" onclick="nsResetVault()">Lock Vault</button><p class="muted">Vault Glow is a visual theme and can be switched off here.</p></div></section>
 <section id="arcade"><h2>🕹️ NIGHTSHIFT ARCADE</h2><p class="muted">Play two mini-games and earn XP. High scores save in this browser.</p>
 <div class="ns-arcade-grid"><div class="ns-card"><h3>⚡ Reaction Test</h3><p>Best: <strong id="nsReactionBest">—</strong></p><div id="nsReactionPad" class="ns-reaction-pad" role="button" tabindex="0" onclick="nsReactionTap()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nsReactionTap()}">Press START to begin</div><button class="btn" onclick="nsReactionStart()">START REACTION TEST</button><p id="nsReactionResult" class="muted">Wait for green, then tap!</p></div>
-<div class="ns-card"><h3>🐍 Neon Snake</h3><p>Score: <strong id="nsSnakeScore">0</strong> · Best: <strong id="nsSnakeBest">0</strong></p><canvas id="nsSnakeCanvas" width="300" height="300" aria-label="Snake game board"></canvas><div class="ns-inline"><button class="btn" onclick="nsSnakeStart()">START / RESTART</button><button class="btn" onclick="nsSnakeStop()">PAUSE</button></div><div class="ns-dpad"><button onclick="nsSnakeDirection(0,-1)">▲</button><div><button onclick="nsSnakeDirection(-1,0)">◀</button><button onclick="nsSnakeDirection(0,1)">▼</button><button onclick="nsSnakeDirection(1,0)">▶</button></div></div><p class="muted">Use arrow keys or the buttons. Tap the board to focus it.</p></div></div></section>
+<div class="ns-card"><h3>🐍 Neon Snake</h3><p>Score: <strong id="nsSnakeScore">0</strong> · Best: <strong id="nsSnakeBest">0</strong></p><canvas id="nsSnakeCanvas" width="300" height="300" aria-label="Snake game board"></canvas><div class="ns-inline"><button class="btn" onclick="nsSnakeStart()">START / RESTART</button><button class="btn" onclick="nsSnakeStop()">PAUSE</button></div><div class="ns-dpad"><button onclick="nsSnakeDirection(0,-1)">▲</button><div><button onclick="nsSnakeDirection(-1,0)">◀</button><button onclick="nsSnakeDirection(0,1)">▼</button><button onclick="nsSnakeDirection(1,0)">▶</button></div></div><p class="muted">Use arrow keys or the buttons. Tap the board to focus it.</p></div></div><div class="ub-mini-grid"><div class="card ub-game-area"><h3>🎯 Target Tap</h3><p>Tap the target 10 times as fast as you can.</p><div class="ub-tap-target" id="ubTarget" onclick="ubTargetTap()" role="button" tabindex="0" onkeydown="if(event.key==='Enter')ubTargetTap()">🎯</div><p id="ubTargetStatus">Ready to play</p><button class="btn" onclick="ubTargetStart()">START TARGET TAP</button></div><div class="card ub-game-area"><h3>🔢 Number Guess</h3><p>Guess the secret number between 1 and 50.</p><input type="number" id="ubGuessInput" min="1" max="50" placeholder="1–50"><button class="btn" onclick="ubGuess()">GUESS</button><button class="btn" onclick="ubGuessReset()">NEW ROUND</button><p id="ubGuessStatus">You have 7 guesses.</p></div></div></section>
 
 <section id="multiverse"><h2>🌀 NIGHTSHIFT MULTIVERSE</h2><p class="muted">Choose your dimension. Each universe changes the site's atmosphere. Horror Mode is optional and can be turned off anytime.</p>
 <div class="ns-dim-grid">
@@ -656,9 +676,13 @@ body.ns-dimension-horror{--slime:#ef658d;--slime-shadow:#ff3d6a}
   <iframe id="nsCinemaFrame" class="ns-cinema-frame" title="NIGHTSHIFT Cinema video player" loading="lazy" referrerpolicy="no-referrer" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
   <p class="ns-cinema-note">Player not loading? <a id="nsCinemaSource" href="https://archive.org/details/movies" target="_blank" rel="noopener noreferrer">Open the original source</a>. Only play or share content you're authorized to access.</p>
  </div>
- <div id="nsCinemaCatalog" class="ns-cinema-grid"></div>
+ <p class="muted">🍿 Pick a title to explore it. Series show a season guide when season counts are known. Posters are stylized placeholders, not official artwork.</p><div id="nsCinemaCatalog" class="ns-cinema-grid"></div>
 </section>
 
+
+<section id="terminal"><h2>⌨ UNBOUND // COMMAND CENTER</h2><p class="muted">A safe, simulated hacker-style console. Commands only affect this webpage, not your computer or other systems.</p><div class="card"><div class="ub-terminal" id="ubTermOutput" role="log" aria-live="polite">UNBOUNDINC TERMINAL v2.0
+Type help to see commands.
+</div><form class="ub-terminal-input" onsubmit="ubTermRun(event)"><label for="ubTermCommand">guest@unbound:~$</label><input id="ubTermCommand" autocomplete="off" spellcheck="false" placeholder="help"><button class="btn" type="submit">RUN</button></form><div class="ub-tools"><button class="btn" onclick="ubTermDemo()">RUN DEMO SCAN</button><button class="btn" onclick="ubTermClear()">CLEAR</button></div></div></section>
 <section id="chatgpt">
  <h2>🤖 ChatGPT × UnboundINC</h2>
  <div class="card" style="text-align:center;padding:35px 22px">
@@ -1348,6 +1372,28 @@ function downloadNotes() {
 }
 
 renderCommands(commands);
+
+/* UnboundINC 2.0 additions */
+function ubToggleTheme(){document.body.classList.toggle('ub-mono');localStorage.setItem('ub-theme-mono',document.body.classList.contains('ub-mono')?'1':'0');ubThemeLabel()}
+function ubThemeLabel(){const b=document.getElementById('ubThemeBtn');if(b)b.textContent=document.body.classList.contains('ub-mono')?'◐ Original Theme':'◐ Mono Theme'}
+if(localStorage.getItem('ub-theme-mono')==='1')document.body.classList.add('ub-mono');ubThemeLabel();
+function ubTermPrint(v){const o=document.getElementById('ubTermOutput');o.textContent+='\n'+v;o.scrollTop=o.scrollHeight}
+function ubTermClear(){document.getElementById('ubTermOutput').textContent='UNBOUNDINC TERMINAL v2.0\n'}
+function ubTermRun(e){e.preventDefault();const input=document.getElementById('ubTermCommand'),cmd=input.value.trim().toLowerCase();input.value='';if(!cmd)return;ubTermPrint('guest@unbound:~$ '+cmd);const commands={help:'COMMANDS: help, about, status, whoami, date, ls, pwd, scan, matrix, clear, secret',about:'UnboundINC: a creative coding and gaming hub.',status:'SYSTEM ONLINE | SIMULATION MODE | ALL SYSTEMS NOMINAL',whoami:'guest — UnboundINC visitor',date:new Date().toLocaleString(),ls:'dashboard/  cinema/  arcade/  terminal/  tech-lab/',pwd:'/home/guest/unboundinc',scan:'[SIMULATED] Checking interface... OK\n[SIMULATED] Checking games... OK\n[SIMULATED] No real network scan performed.',matrix:'01010111 01000101 00100000 01000001 01010010 01000101',secret:'ACCESS GRANTED: you found the easter egg 🗝️'};if(cmd==='clear')ubTermClear();else ubTermPrint(commands[cmd]||'Command not found. Type help.')}
+function ubTermDemo(){ubTermPrint('[DEMO ONLY] Booting virtual nodes...\n[██████████] 100%\nUnboundINC simulation ready. No devices scanned.')}
+const ubSeasonCounts={'The Walking Dead':11,'Fear the Walking Dead':8,'The Walking Dead: World Beyond':2,'Tales of the Walking Dead':1,'The Walking Dead: The Ones Who Live':1,'Gravity Falls':2,'Regular Show':8,'Rick and Morty':8,'SpongeBob SquarePants':15};
+const ubCinemaOpenOriginal=nsCinemaOpen;
+nsCinemaOpen=function(index){ubCinemaOpenOriginal(index);const x=nsCinemaLibrary[index],count=ubSeasonCounts[x.title],extra=document.getElementById('nsCinemaEpisodes');if(!count)return;const title=document.createElement('h4');title.textContent='Season guide';extra.append(title);const wrap=document.createElement('div');wrap.className='ub-cinema-season';for(let i=1;i<=count;i++){const b=document.createElement('button');b.className='btn';b.textContent='Season '+i;b.onclick=()=>{document.getElementById('ubSeasonNotice')?.remove();const note=document.createElement('p');note.id='ubSeasonNotice';note.className='muted';note.textContent=x.title+' — Season '+i+'. Open the official viewing page to browse episodes. Availability varies.';extra.append(note)};wrap.append(b)}extra.append(wrap)};
+const ubCinemaRenderOriginal=nsCinemaRender;
+nsCinemaRender=function(){ubCinemaRenderOriginal();document.querySelectorAll('#nsCinemaCatalog .ns-cinema-tile').forEach(tile=>{const art=tile.querySelector('.ns-cinema-art');if(art){art.classList.add('ub-poster')}})};
+nsCinemaRender();
+let ubTargetCount=0,ubTargetStartAt=0;
+function ubTargetStart(){ubTargetCount=0;ubTargetStartAt=Date.now();document.getElementById('ubTargetStatus').textContent='0 / 10 taps';document.getElementById('ubTarget').textContent='🎯'}
+function ubTargetTap(){if(!ubTargetStartAt)return;ubTargetCount++;if(ubTargetCount>=10){const t=((Date.now()-ubTargetStartAt)/1000).toFixed(2);document.getElementById('ubTargetStatus').textContent='Finished in '+t+' seconds!';ubTargetStartAt=0;document.getElementById('ubTarget').textContent='🏆'}else{document.getElementById('ubTargetStatus').textContent=ubTargetCount+' / 10 taps';document.getElementById('ubTarget').textContent=ubTargetCount%2?'⚡':'🎯'}}
+let ubSecret=0,ubTries=0;function ubGuessReset(){ubSecret=1+Math.floor(Math.random()*50);ubTries=0;document.getElementById('ubGuessStatus').textContent='New round! 7 guesses.';document.getElementById('ubGuessInput').value=''}
+function ubGuess(){if(!ubSecret)ubGuessReset();const n=Number(document.getElementById('ubGuessInput').value);if(!Number.isInteger(n)||n<1||n>50){document.getElementById('ubGuessStatus').textContent='Enter a whole number from 1 to 50.';return}ubTries++;if(n===ubSecret){document.getElementById('ubGuessStatus').textContent='🏆 Correct in '+ubTries+' guesses!';ubSecret=0}else if(ubTries>=7){document.getElementById('ubGuessStatus').textContent='Game over! Number was '+ubSecret+'. Start a new round.';ubSecret=0}else document.getElementById('ubGuessStatus').textContent=(n<ubSecret?'Higher!':'Lower!')+' '+(7-ubTries)+' guesses left.'}
+ubGuessReset();
+
 </script>
 
 </body>
